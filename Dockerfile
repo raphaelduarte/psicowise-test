@@ -1,22 +1,23 @@
-#See https://aka.ms/customizecontainer to learn how to customize your debug container and how Visual Studio uses this Dockerfile to build your images for faster debugging.
-
-FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
+# Use a imagem do SDK .NET 7.0 para construir o ambiente
+FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build-env
 WORKDIR /app
+
+# Exponha as portas necessárias
 EXPOSE 80
 EXPOSE 443
 
-FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
-WORKDIR /src
-COPY ["Psicowise/Psicowise.csproj", "Psicowise"]
+# Copie o arquivo de projeto e restaure as dependências
+COPY ["Psicowise/Psicowise.csproj", "Psicowise/"]
 RUN dotnet restore "Psicowise/Psicowise.csproj"
-COPY . .
-WORKDIR "/src/Psicowise"
-RUN dotnet build "Psicowise.csproj" -c Release -o /app/build
 
-FROM build AS publish
-RUN dotnet publish "Psicowise.csproj" -c Release -o /app/publish /p:UseAppHost=false
+# Copie todos os arquivos da aplicação e publique o aplicativo
+COPY Psicowise/. Psicowise/
+WORKDIR /app/Psicowise
+RUN dotnet publish -c Release -o out
 
-FROM base AS final
+# Use a imagem do runtime do .NET 7.0 para o container final
+FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS final
 WORKDIR /app
-COPY --from=publish /app/publish .
+COPY --from=build-env /app/Psicowise/out .
+
 ENTRYPOINT ["dotnet", "Psicowise.dll"]
