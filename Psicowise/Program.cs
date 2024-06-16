@@ -10,6 +10,15 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.WebHost.ConfigureKestrel(serverOptions =>
+{
+    serverOptions.Listen(IPAddress.Any, 80);
+    serverOptions.Listen(IPAddress.Any, 443, listenOptions =>
+    {
+        listenOptions.UseHttps("Psicowise/certs/https/aspnetapp.pfx", "Joaquim12@");
+    });
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
