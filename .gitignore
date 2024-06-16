@@ -364,3 +364,6 @@ FodyWeavers.xsd
 
 # Ensure captain-definition.json is not ignored
 !captain-definition.json
+
+# Exclude all certificates except the ones in the certs directory
+!Psicowise/certs/https/
