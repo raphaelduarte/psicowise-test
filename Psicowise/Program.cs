@@ -15,7 +15,7 @@ builder.WebHost.ConfigureKestrel(serverOptions =>
     serverOptions.Listen(IPAddress.Any, 80);
     serverOptions.Listen(IPAddress.Any, 443, listenOptions =>
     {
-        listenOptions.UseHttps("C:\\Users\\marle\\source\repos\\Psicowise\\Psicowise\\certs\\https\aspnetapp.pfx", "Joaquim12@");
+        listenOptions.UseHttps("/app/certs/https/aspnetapp.pfx", "Joaquim12@");
     });
 });
 

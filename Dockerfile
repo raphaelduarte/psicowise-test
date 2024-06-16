@@ -18,6 +18,6 @@ RUN dotnet publish -c Release -o out
 # Use a imagem do runtime do .NET 7.0 para o container final
 FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS final
 WORKDIR /app
-COPY --from=build-env /app/Psicowise/out .
+COPY --from=publish /app/publish .
 COPY Psicowise/certs/https /app/certs/https
 ENTRYPOINT ["dotnet", "Psicowise.dll"]
