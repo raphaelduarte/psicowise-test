@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Psicowise.Domain.Entities
 {
-    public class Agenda
+    public class Agenda : Entity
     {
         
     }

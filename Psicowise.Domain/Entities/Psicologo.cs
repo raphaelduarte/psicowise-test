@@ -6,7 +6,7 @@ using Psicowise.Domain.ObjetosDeValor;
 
 namespace Psicowise.Domain.Entities
 {
-    public class Psicologo
+    public class Psicologo : Entity
     {
         NomeCompleto Nome { get; set; }
         string Crp { get; set; }
