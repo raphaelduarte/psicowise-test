@@ -1,23 +1,32 @@
-# Use a imagem do SDK .NET 7.0 para construir o ambiente
-FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build-env
+# Usar uma imagem base do .NET ASP.NET para a fase de runtime
+FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
 WORKDIR /app
-
-# Exponha as portas necessárias
 EXPOSE 80
 EXPOSE 443
 
-# Copie o arquivo de projeto e restaure as dependências
+# Usar uma imagem base do .NET SDK para a fase de build
+FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
+ARG BUILD_CONFIGURATION=Release
+WORKDIR /src
+
+# Copiar os arquivos de projeto e restaurar dependências
 COPY ["Psicowise/Psicowise.csproj", "Psicowise/"]
+COPY ["Psicowise.Infrastructure/Psicowise.Infrastructure.csproj", "Psicowise.Infrastructure/"]
+COPY ["Psicowise.Domain/Psicowise.Domain.csproj", "Psicowise.Domain/"]
 RUN dotnet restore "Psicowise/Psicowise.csproj"
 
-# Copie todos os arquivos da aplicação e publique o aplicativo
-COPY Psicowise/. Psicowise/
-WORKDIR /app/Psicowise
-RUN dotnet publish -c Release -o out
+# Copiar todo o código fonte e construir o projeto
+COPY . .
+WORKDIR "/src/Psicowise"
+RUN dotnet build "Psicowise.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
-# Use a imagem do runtime do .NET 7.0 para o container final
-FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS final
+# Publicar o projeto
+FROM build AS publish
+ARG BUILD_CONFIGURATION=Release
+RUN dotnet publish "Psicowise.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+
+# Usar a imagem base do ASP.NET para a fase de runtime
+FROM base AS final
 WORKDIR /app
-COPY --from=build-env /app/Psicowise/out .
-COPY Psicowise/certs/https /app/certs/https
+COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "Psicowise.dll"]
