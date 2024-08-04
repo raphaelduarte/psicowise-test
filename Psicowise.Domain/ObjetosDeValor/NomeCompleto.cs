@@ -7,7 +7,12 @@ namespace Psicowise.Domain.ObjetosDeValor
 {
     public class NomeCompleto
     {
-        string Nome { get; set; }
-        string Sobrenome { get; set; }
+        public NomeCompleto(string nome, string sobrenome)
+        {
+            Nome = nome;
+            Sobrenome = sobrenome;
+        }
+        public string Nome { get; private set; }
+        public string Sobrenome { get; private set; }
     }
 }
