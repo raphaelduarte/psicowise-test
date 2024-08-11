@@ -45,10 +45,12 @@ public class PsicologoRepository : IPsicologoRepository
         return Task.FromResult(psicologo);
     }
 
-    public Task<Psicologo> Remove(Psicologo psicologo)
+    public async Task Remove(Psicologo? psicologo)
     {
-        _context.Remove(psicologo);
-        _context.SaveChanges();
-        return Task.FromResult(psicologo);
+        if (psicologo != null)
+        {
+            _context.Psicologos.Remove(psicologo);
+            await _context.SaveChangesAsync();
+        }
     }
 }

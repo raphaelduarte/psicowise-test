@@ -10,7 +10,9 @@ namespace Psicowise.Domain.Entities
     {
         public Agenda()
         {
-            
+            Horarios = new List<Horario>();
+            Psicologo = new Psicologo();
+            Pacientes = new List<Paciente>();
         }
 
         public Agenda(Guid idAgenda, List<Horario> horarios)
@@ -41,7 +43,7 @@ namespace Psicowise.Domain.Entities
             Psicologo = psicologo;
             Pacientes = pacientes;
         }
-        public Guid Id { get; set; }
+        public new Guid Id { get; set; }
         public ICollection<Horario> Horarios { get; set; }
         public Psicologo Psicologo { get; set; }
         public ICollection<Paciente> Pacientes { get; set; }

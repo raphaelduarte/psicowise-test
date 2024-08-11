@@ -4,5 +4,5 @@ namespace Psicowise.Domain.Queries.Contracts;
 
 public interface IPsicologoQuery
 {
-    Psicologo GetPsicologoById(Guid psicologoId);
+    Task<Psicologo?> GetPsicologoById(Guid psicologoId);
 }

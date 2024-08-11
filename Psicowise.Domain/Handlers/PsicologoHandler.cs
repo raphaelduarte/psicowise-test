@@ -33,16 +33,40 @@ public class PsicologoHandler : IHandler<CreatePsicologoCommand>, IHandler<Updat
 
     public async Task<ICommandResult> Handle(UpdatePsicologoCommand command)
     {
-        var psicologo = _query.GetPsicologoById(command.Id);
+        var psicologo = await _query.GetPsicologoById(command.Id);
+        if (psicologo == null)
+        {
+            return new GenericCommandResult(false, "Psicólogo não encontrado", default);
+        }
+
+        // Atualize as propriedades do psicólogo aqui
+        // psicologo.Nome = command.Nome;
+        // psicologo.Crp = command.Crp;
+        // psicologo.Email = command.Email;
+        // ... outras propriedades ...
 
         await _repository.Update(psicologo);
 
         return new GenericCommandResult(true, "Psicologo atualizado com sucesso", psicologo);
     }
-    
+
     public async Task<ICommandResult> Handle(RemovePsicologoCommand command)
     {
-        
-        return new GenericCommandResult(true, "Psicologo deletado com sucesso", null);
+        var psicologo = await _query.GetPsicologoById(command.Id);
+        if (psicologo == null)
+        {
+            return new GenericCommandResult(false, "Psicólogo não encontrado", default);
+        }
+
+        // Armazene as informações relevantes antes de remover
+        var psicologoInfo = new
+        {
+            psicologo.Id,
+            psicologo.Nome,
+            psicologo.Crp
+        };
+
+        await _repository.Remove(psicologo);
+        return new GenericCommandResult(true, "Psicólogo removido com sucesso", psicologoInfo);
     }
 }

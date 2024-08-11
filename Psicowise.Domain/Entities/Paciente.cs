@@ -8,6 +8,14 @@ namespace Psicowise.Domain.Entities
 {
     public class Paciente : Entity
     {
+        public Paciente()
+        {
+            Nome = new NomeCompleto("", "");
+            Email = string.Empty;
+            Telefone = string.Empty;
+            Endereco = new Endereco("", "", "", "", "", "", "");
+        }
+
         public Paciente(
             NomeCompleto nome,
             string email,

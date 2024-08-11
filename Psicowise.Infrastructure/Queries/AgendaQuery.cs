@@ -23,6 +23,11 @@ public class AgendaQuery : IAgendaQuery
                 .Agendas
                 .FirstOrDefault(agenda => agenda.Id == agendaId);
 
+            if (agendaModel == null)
+            {
+                throw new Exception("Entidade não encontrada");
+            }
+
             return new Agenda
             {
                 Id = agendaModel.Id,

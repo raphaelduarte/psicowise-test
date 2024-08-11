@@ -1,77 +1,80 @@
-﻿using System.Text.Json;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Microsoft.EntityFrameworkCore.Design;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.EntityFrameworkCore;
 using Psicowise.Domain.Entities;
-using Psicowise.Domain.Handlers;
 using Psicowise.Domain.ObjetosDeValor;
-using Psicowise.Infrastructure.Models;
+using System.Text.Json;
 
 namespace Psicowise.Infrastructure.Contexts;
 
 public class DataContext : DbContext
 {
-    // protected readonly IConfiguration Configuration;
-    // public DataContext(IConfiguration configuration)
-    // {
-    //     Configuration = configuration;
-    // }
-
-    // protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    // {
-    //     optionsBuilder.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"));
-    // }
-
     public DataContext(DbContextOptions<DataContext> options) : base(options)
     {
-
     }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        base.OnConfiguring(optionsBuilder);
-        optionsBuilder.UseNpgsql("Server=easypanel.hetzner.odontowise.net.br;Port=123;Database=psicowise;User Id=postgres;Password=Joaquim12@");
-    }
-
-    public DbSet<PsicologoModel> Psicologos { get; set; }
-    public DbSet<AgendaModel> Agendas { get; set; }
+    public DbSet<Psicologo> Psicologos { get; set; }
+    public DbSet<Agenda> Agendas { get; set; }
+    public DbSet<Paciente> Pacientes { get; set; }
+    // Adicione outros DbSets conforme necessário
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<PsicologoModel>(entity =>
-            {
-                entity.HasKey(e => e.Id);
-                entity.Property(e => e.Nome)
-                    .HasConversion(
-                        v => v.ToString(),
-                        v => new NomeCompleto(v, v));
-                entity.Property(e => e.Crp)
-                    .IsRequired()
-                    .HasMaxLength(50);
-                entity.Property(e => e.Email)
-                    .IsRequired()
-                    .HasMaxLength(255);
-                entity.Property(e => e.Endereco)
-                    .HasConversion(
-                        v => v != null ? JsonSerializer.Serialize(v, new JsonSerializerOptions()) : null,
-                        v => v != null ? JsonSerializer.Deserialize<Endereco>(v, new JsonSerializerOptions()) : null);
+        modelBuilder.Entity<Psicologo>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+            entity.Property(e => e.Nome)
+                .HasConversion(
+                    v => JsonSerializer.Serialize(v, new JsonSerializerOptions()),
+                    v => JsonSerializer.Deserialize<NomeCompleto>(v, new JsonSerializerOptions())!);
+            entity.Property(e => e.Crp)
+                .IsRequired()
+                .HasMaxLength(50);
+            entity.Property(e => e.Email)
+                .IsRequired()
+                .HasMaxLength(255);
+            entity.Property(e => e.Endereco)
+                .HasConversion(
+                    v => JsonSerializer.Serialize(v, new JsonSerializerOptions()),
+                    v => JsonSerializer.Deserialize<Endereco>(v, new JsonSerializerOptions())!);
+            
+            // Configurações para coleções, se necessário
+            entity.Property(e => e.Pacientes)
+                .HasConversion(
+                    v => JsonSerializer.Serialize(v.Select(p => p.Id).ToList(), new JsonSerializerOptions()),
+                    v => JsonSerializer.Deserialize<List<Guid>>(v, new JsonSerializerOptions()).Select(id => new Paciente()).ToList() ?? new List<Paciente>());
 
-                // Converter List<Guid>? para string e vice-versa
+            entity.Property(e => e.Consultas)
+                .HasConversion(
+                    v => JsonSerializer.Serialize(v.Select(c => c.Id).ToList(), new JsonSerializerOptions()),
+                    v => JsonSerializer.Deserialize<List<Guid>>(v, new JsonSerializerOptions()).Select(id => new Consulta(id, Guid.Empty, DateTime.MinValue, DateTime.MinValue, "", false, false, false, false, false, false)).ToList() ?? new List<Consulta>());
 
-                //entity.Property(e => e.Pacientes)
-                //    .HasConversion(
-                //        v => v != null ? string.Join(',', v) : null,
-                //        v => v != null ? v.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(Guid.Parse).ToList() : new List<Guid>());
-                //entity.Property(e => e.Consultas)
-                //    .HasConversion(
-                //        v => v != null ? string.Join(',', v) : null,
-                //        v => v != null ? v.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(Guid.Parse).ToList() : new List<Guid>());
-                //entity.Property(e => e.Agendas)
-                //    .HasConversion(
-                //        v => v != null ? string.Join(',', v) : null,
-                //        v => v != null ? v.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(Guid.Parse).ToList() : new List<Guid>());
-            });
+            entity.Property(e => e.Agendas)
+                .HasConversion(
+                    v => JsonSerializer.Serialize(v.Select(a => a.Id).ToList(), new JsonSerializerOptions()),
+                    v => JsonSerializer.Deserialize<List<Guid>>(v, new JsonSerializerOptions()).Select(id => new Agenda()).ToList() ?? new List<Agenda>());
+        });
+
+        modelBuilder.Entity<Agenda>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+            // Adicione outras configurações para Agenda, se necessário
+        });
+
+        modelBuilder.Entity<Paciente>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+            entity.Property(e => e.Nome)
+                .HasConversion(
+                    v => JsonSerializer.Serialize(v, new JsonSerializerOptions()),
+                    v => JsonSerializer.Deserialize<NomeCompleto>(v, new JsonSerializerOptions())!);
+            entity.Property(e => e.Endereco)
+                .HasConversion(
+                    v => JsonSerializer.Serialize(v, new JsonSerializerOptions()),
+                    v => JsonSerializer.Deserialize<Endereco>(v, new JsonSerializerOptions())!);
+            // Adicione outras configurações para Paciente, se necessário
+        });
+
+        // Adicione configurações para outras entidades, se necessário
+
+        base.OnModelCreating(modelBuilder);
     }
 }

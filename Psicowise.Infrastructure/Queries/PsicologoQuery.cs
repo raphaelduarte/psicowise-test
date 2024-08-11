@@ -17,15 +17,20 @@ public class PsicologoQuery : IPsicologoQuery
         _context = context;
     }
 
-    public Psicologo GetPsicologoById(Guid psicologoId)
+    public async Task<Psicologo?> GetPsicologoById(Guid psicologoId)
     {
         try
         {
-            var psicologoModel = _context
+            var psicologoModel =  _context
                 .Psicologos
                 .FirstOrDefault(psicologo => psicologo.Id == psicologoId);
 
-            return new Psicologo
+            if (psicologoModel == null)
+            {
+                throw new Exception("Entidade não encontrada");
+            }
+
+            var psicologo = new Psicologo
             {
                 Id = psicologoModel.Id,
                 Nome = psicologoModel.Nome,
@@ -36,6 +41,8 @@ public class PsicologoQuery : IPsicologoQuery
                 Pacientes = psicologoModel.Pacientes,
                 Agendas = psicologoModel.Agendas
             };
+
+            return psicologo;
 
         }
         catch (Exception ex)

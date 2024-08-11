@@ -13,9 +13,10 @@ public class AgendaHandler : IHandler<CreateAgendaCommand>, IHandler<UpdateAgend
     private readonly IAgendaRepository _repository;
     private readonly IAgendaQuery _query;
 
-    public AgendaHandler(IAgendaRepository repository)
+    public AgendaHandler(IAgendaRepository repository, IAgendaQuery query)
     {
         _repository = repository;
+        _query = query;
     }
     
     public async Task<ICommandResult> Handle(CreateAgendaCommand command)
