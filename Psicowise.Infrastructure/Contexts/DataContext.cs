@@ -74,6 +74,15 @@ public class DataContext : DbContext
         });
 
         // Adicione configurações para outras entidades, se necessário
+        modelBuilder.Entity<Horario>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+            entity.Property(e => e.InicioConsulta)
+                .IsRequired();
+            entity.Property(e => e.FimConsulta)
+                .IsRequired();
+        
+        });
 
         base.OnModelCreating(modelBuilder);
     }

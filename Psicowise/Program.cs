@@ -38,6 +38,7 @@ builder.Services.AddScoped<IPsicologoRepository, PsicologoRepository>();
 builder.Services.AddScoped<IAgendaRepository, AgendaRepository>();
 
 builder.Services.AddScoped<IPsicologoQuery, PsicologoQuery>();
+builder.Services.AddScoped<IAgendaQuery, AgendaQuery>();
 
 builder.Services.AddTransient<PsicologoHandler, PsicologoHandler>();
 builder.Services.AddTransient<AgendaHandler, AgendaHandler>();

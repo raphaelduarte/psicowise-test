@@ -33,8 +33,9 @@ public class AgendaHandler : IHandler<CreateAgendaCommand>, IHandler<UpdateAgend
     {
         var agendaContext = _query.GetAgendaById(command.IdAgenda);
 
+
         var agendaCommand = new Agenda(
-            agendaContext.Psicologo,
+            agendaContext.Result.Psicologo,
             command.Horarios
         );
         await _repository.Update(agendaCommand);
@@ -43,7 +44,7 @@ public class AgendaHandler : IHandler<CreateAgendaCommand>, IHandler<UpdateAgend
     
     public async Task<ICommandResult> Handle(RemoveAgendaCommand command)
     {
-        var agenda = _query.GetAgendaById(command.Agenda.Id);
+        var agenda = _query.GetAgendaById(command.Agenda.Id).Result;
         await _repository.Remove(agenda);
         return new GenericCommandResult(true, "Agenda deletada com sucesso", agenda);
     }

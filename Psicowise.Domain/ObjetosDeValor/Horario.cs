@@ -7,6 +7,8 @@ public class Horario
         InicioConsulta = inicioConsulta;
         FimConsulta = fimConsulta;
     }
-public DateTime InicioConsulta { get; set; }
-public DateTime FimConsulta { get; set; }
+    
+    public Guid Id { get; set; } = new Guid();    
+    public DateTime InicioConsulta { get; set; }
+    public DateTime FimConsulta { get; set; }
 }

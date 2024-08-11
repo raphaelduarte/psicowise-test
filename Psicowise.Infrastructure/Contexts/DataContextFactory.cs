@@ -13,7 +13,7 @@ public class DataContextFactory : IDesignTimeDbContextFactory<DataContext>
         var currentDir = Directory.GetCurrentDirectory();
         
         // Navegar para o diretório da solução
-        var solutionDir = Directory.GetParent(currentDir)?.Parent?.FullName ?? throw new InvalidOperationException("Não foi possível encontrar o diretório da solução.");
+        var solutionDir = Directory.GetParent(currentDir)?.FullName ?? throw new InvalidOperationException("Não foi possível encontrar o diretório da solução.");
         
         // Caminho para o arquivo appsettings.json no projeto principal
         var configPath = Path.Combine(solutionDir, "Psicowise", "appsettings.json");

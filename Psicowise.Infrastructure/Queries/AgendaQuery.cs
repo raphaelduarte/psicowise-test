@@ -15,7 +15,7 @@ public class AgendaQuery : IAgendaQuery
     {
         _context = context;
     }
-    public Agenda GetAgendaById(Guid agendaId)
+    public async Task<Agenda> GetAgendaById(Guid agendaId)
     {
         try
         {

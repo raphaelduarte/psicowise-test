@@ -4,5 +4,5 @@ namespace Psicowise.Domain.Queries.Contracts;
 
 public interface IAgendaQuery
 {
-    Agenda GetAgendaById(Guid agendaId);
+    Task<Agenda> GetAgendaById(Guid agendaId);
 }
