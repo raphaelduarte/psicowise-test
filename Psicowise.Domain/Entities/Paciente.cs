@@ -13,14 +13,14 @@
             {
                 Nome = new NomeCompleto("", "");
                 Email = string.Empty;
-                Telefone = string.Empty;
+                Telefone = new Telefone("", "");
                 Endereco = new Endereco("", "", "", "", "", "", "");
             }
 
             public Paciente(
                 NomeCompleto nome,
                 string email,
-                string telefone,
+                Telefone telefone,
                 Endereco endereco,
                 DateTime dataNascimento,
                 Guid psicologoId
@@ -37,7 +37,7 @@
             public Paciente(
                 NomeCompleto nome,
                 string email,
-                string telefone,
+                Telefone telefone,
                 Endereco endereco,
                 DateTime dataNascimento,
                 Guid psicologoId,
@@ -145,7 +145,7 @@
             public Guid PsicologoId { get;  set; }
             public ICollection<Consulta> Consultas { get;  set; }
             public string Email { get;  set; }
-            public string Telefone { get;  set; }
+            public Telefone Telefone { get;  set; }
             public Endereco Endereco { get;  set; }
             public DateTime DataNascimento { get;  set; }
             public string? Cpf { get;  set; }

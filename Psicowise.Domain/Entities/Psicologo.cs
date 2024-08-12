@@ -34,12 +34,14 @@ namespace Psicowise.Domain.Entities
             NomeCompleto nome,
             string crp,
             string email,
+            Telefone telefone,
             Endereco? endereco
             )
         {
             Nome = nome;
             Crp = crp;
             Email = email;
+            Telefone = telefone;
             Endereco = endereco;
             
         }
@@ -47,6 +49,7 @@ namespace Psicowise.Domain.Entities
             NomeCompleto nome,
             string crp,
             string email,
+            Telefone telefone,
             Endereco? endereco,
             List<Paciente?> pacientes
         )
@@ -54,6 +57,7 @@ namespace Psicowise.Domain.Entities
             Nome = nome;
             Crp = crp;
             Email = email;
+            Telefone = telefone;
             Endereco = endereco;
             Pacientes = pacientes;
             
@@ -63,6 +67,7 @@ namespace Psicowise.Domain.Entities
         public NomeCompleto Nome { get; set; }
         public string Crp { get; set; }
         public string Email { get; set; }
+        public Telefone Telefone { get; set; }
         public ICollection<Paciente>? Pacientes { get; set; } = new List<Paciente>();
         public Endereco? Endereco { get; set; }
         public ICollection<Agenda>? Agendas { get; set; } = new List<Agenda>();
