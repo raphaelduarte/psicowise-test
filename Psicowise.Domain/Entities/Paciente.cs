@@ -2,6 +2,7 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Linq;
+    using System.Runtime.InteropServices.JavaScript;
     using System.Threading.Tasks;
     using Psicowise.Domain.ObjetosDeValor;
 
@@ -18,12 +19,13 @@
             }
 
             public Paciente(
+                Guid psicologoId,
                 NomeCompleto nome,
                 string email,
                 Telefone telefone,
                 Endereco endereco,
                 DateTime dataNascimento,
-                Guid psicologoId
+                DateTime createdAt
             )
             {
                 Nome = nome;
@@ -32,7 +34,9 @@
                 Endereco = endereco;
                 DataNascimento = dataNascimento;
                 PsicologoId = psicologoId;
+                CreatedAt = createdAt;
             }
+
 
             public Paciente(
                 NomeCompleto nome,
@@ -190,6 +194,8 @@
             public string? Encaminhamentos { get;  set; }
             public string? ObservacoesConsulta { get;  set; }
             public bool Status { get;  set; } = true;
+            public DateTime CreatedAt { get;  set; }
+            public DateTime UpdatedAt { get;  set; }
             
             //Propriedades de navegação
             public Psicologo Psicologo { get;  set; }

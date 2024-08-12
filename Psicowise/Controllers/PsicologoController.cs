@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Psicowise.Domain.Commands;
+using Psicowise.Domain.Commands.PacienteCommand;
 using Psicowise.Domain.Handlers;
 using Psicowise.Domain.Queries;
 using Psicowise.Domain.Queries.Contracts;
@@ -18,16 +19,19 @@ namespace Psicowise.Controllers
         private readonly PsicologoHandler _psicologoHandler;
         private readonly IPsicologoQuery _psicologoQuery;
         private readonly IPacienteQuery _pacienteQuery;
+        private readonly PacienteHandler _pacienteHandler;
 
         public PsicologoController(
             PsicologoHandler psicologoHandler,
             IPsicologoQuery psicologoQuery,
-            IPacienteQuery pacienteQuery
+            IPacienteQuery pacienteQuery,
+            PacienteHandler pacienteHandler
         )
         {
             _psicologoHandler = psicologoHandler;
             _psicologoQuery = psicologoQuery;
             _pacienteQuery = pacienteQuery;
+            _pacienteHandler = pacienteHandler;
         }
         
         [Route("createPsicologo")]
@@ -76,6 +80,14 @@ namespace Psicowise.Controllers
         {
             var listaPaciente = await _pacienteQuery.GetPacientesByPsicologoId(id);
             return Ok(listaPaciente);
+        }
+        
+        [Route("createPaciente")]
+        [HttpPost]
+        public async Task<IActionResult> CreatePaciente([FromBody] CreatePacienteCommand command)
+        {
+            var paciente = await _pacienteHandler.Handle(command);
+            return Ok(paciente);
         }
     }
 }
