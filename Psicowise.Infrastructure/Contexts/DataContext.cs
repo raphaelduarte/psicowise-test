@@ -39,6 +39,11 @@ public class DataContext : DbContext
             .HasConversion(
                 v => JsonSerializer.Serialize(v, new JsonSerializerOptions()),
                 v => JsonSerializer.Deserialize<Endereco>(v, new JsonSerializerOptions())!);
+        
+        entity.Property(e => e.Telefone)
+            .HasConversion(
+                v => JsonSerializer.Serialize(v, new JsonSerializerOptions()),
+                v => JsonSerializer.Deserialize<Telefone>(v, new JsonSerializerOptions())!);
 
         // Assumindo que você tem uma propriedade de navegação chamada Pacientes
         entity.HasMany(e => e.Pacientes)
@@ -79,6 +84,11 @@ public class DataContext : DbContext
             .HasConversion(
                 v => JsonSerializer.Serialize(v, new JsonSerializerOptions()),
                 v => JsonSerializer.Deserialize<Endereco>(v, new JsonSerializerOptions())!);
+        
+        entity.Property(e => e.Telefone)
+            .HasConversion(
+                v => JsonSerializer.Serialize(v, new JsonSerializerOptions()),
+                v => JsonSerializer.Deserialize<Telefone>(v, new JsonSerializerOptions())!);
 
         entity.HasOne(paciente => paciente.Psicologo)
             .WithMany(p => p.Pacientes)

@@ -25,6 +25,7 @@ public class PsicologoHandler : IHandler<CreatePsicologoCommand>, IHandler<Updat
             command.Nome,
             command.Crp,
             command.Email,
+            command.Telefone,
             command.Endereco
         );
         await _repository.Create(psicologo);

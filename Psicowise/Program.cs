@@ -44,6 +44,7 @@ builder.Services.AddScoped<IAgendaQuery, AgendaQuery>();
 
 builder.Services.AddTransient<PsicologoHandler, PsicologoHandler>();
 builder.Services.AddTransient<AgendaHandler, AgendaHandler>();
+builder.Services.AddTransient<PacienteHandler, PacienteHandler>();
 
 // Configurar o DbContext
 builder.Services.AddDbContext<DataContext>();

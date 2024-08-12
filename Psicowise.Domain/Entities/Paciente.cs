@@ -2,6 +2,7 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Linq;
+    using System.Runtime.InteropServices.JavaScript;
     using System.Threading.Tasks;
     using Psicowise.Domain.ObjetosDeValor;
 
@@ -13,17 +14,18 @@
             {
                 Nome = new NomeCompleto("", "");
                 Email = string.Empty;
-                Telefone = string.Empty;
+                Telefone = new Telefone("", "");
                 Endereco = new Endereco("", "", "", "", "", "", "");
             }
 
             public Paciente(
+                Guid psicologoId,
                 NomeCompleto nome,
                 string email,
-                string telefone,
+                Telefone telefone,
                 Endereco endereco,
                 DateTime dataNascimento,
-                Guid psicologoId
+                DateTime createdAt
             )
             {
                 Nome = nome;
@@ -32,12 +34,14 @@
                 Endereco = endereco;
                 DataNascimento = dataNascimento;
                 PsicologoId = psicologoId;
+                CreatedAt = createdAt;
             }
+
 
             public Paciente(
                 NomeCompleto nome,
                 string email,
-                string telefone,
+                Telefone telefone,
                 Endereco endereco,
                 DateTime dataNascimento,
                 Guid psicologoId,
@@ -145,7 +149,7 @@
             public Guid PsicologoId { get;  set; }
             public ICollection<Consulta> Consultas { get;  set; }
             public string Email { get;  set; }
-            public string Telefone { get;  set; }
+            public Telefone Telefone { get;  set; }
             public Endereco Endereco { get;  set; }
             public DateTime DataNascimento { get;  set; }
             public string? Cpf { get;  set; }
@@ -190,6 +194,8 @@
             public string? Encaminhamentos { get;  set; }
             public string? ObservacoesConsulta { get;  set; }
             public bool Status { get;  set; } = true;
+            public DateTime CreatedAt { get;  set; }
+            public DateTime UpdatedAt { get;  set; }
             
             //Propriedades de navegação
             public Psicologo Psicologo { get;  set; }
