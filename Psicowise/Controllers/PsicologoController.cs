@@ -17,14 +17,17 @@ namespace Psicowise.Controllers
     {
         private readonly PsicologoHandler _psicologoHandler;
         private readonly IPsicologoQuery _psicologoQuery;
+        private readonly IPacienteQuery _pacienteQuery;
 
         public PsicologoController(
             PsicologoHandler psicologoHandler,
-            IPsicologoQuery psicologoQuery
+            IPsicologoQuery psicologoQuery,
+            IPacienteQuery pacienteQuery
         )
         {
             _psicologoHandler = psicologoHandler;
             _psicologoQuery = psicologoQuery;
+            _pacienteQuery = pacienteQuery;
         }
         
         [Route("createPsicologo")]
@@ -63,15 +66,15 @@ namespace Psicowise.Controllers
         [HttpGet]
         public async Task<IActionResult> GetPacienteById([FromHeader] Guid id)
         {
-            var paciente = await GetPacienteById(id);
+            var paciente = await _pacienteQuery.GetPacienteById(id);
             return Ok(paciente);
         }
         
-        [Route("getListaPacienteById")]
+        [Route("getListaPaciente")]
         [HttpGet]
-        public async Task<IActionResult> GetListaPacienteById([FromHeader] Guid id)
+        public async Task<IActionResult> GetListaPaciente([FromHeader] Guid id)
         {
-            var listaPaciente = await GetListaPacienteById(id);
+            var listaPaciente = await _pacienteQuery.GetPacientesByPsicologoId(id);
             return Ok(listaPaciente);
         }
     }

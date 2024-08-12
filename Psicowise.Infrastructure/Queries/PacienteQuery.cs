@@ -87,4 +87,21 @@ public class PacienteQuery : IPacienteQuery
             throw;
         }
     }
+
+    public async Task<List<Paciente>> GetPacientesByPsicologoId(Guid psicologoId)
+    {
+        try
+        {
+            var pacientes = _context.Pacientes
+                .Where(paciente => paciente.PsicologoId == psicologoId)
+                .ToList();
+
+            return pacientes;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
 }
