@@ -24,16 +24,8 @@ public class PsicologoRepository : IPsicologoRepository
             Email = psicologo.Email,
             Endereco = psicologo.Endereco
         };
-        var model = new PsicologoModel
-        {
-            Id = _psicologo.Id,
-            Nome = _psicologo.Nome,
-            Crp = _psicologo.Crp,
-            Email = _psicologo.Email,
-            Endereco = _psicologo.Endereco
-        };
 
-        _context.Add(model);
+        _context.Add(psicologo);
         _context.SaveChanges();
         return  await Task.FromResult(_psicologo);
     }

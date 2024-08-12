@@ -63,9 +63,9 @@ namespace Psicowise.Domain.Entities
         public NomeCompleto Nome { get; set; }
         public string Crp { get; set; }
         public string Email { get; set; }
-        public ICollection<Paciente> Pacientes { get; set; } = new List<Paciente>();
+        public ICollection<Paciente>? Pacientes { get; set; } = new List<Paciente>();
         public Endereco? Endereco { get; set; }
-        public ICollection<Agenda>? Agendas { get; set; }
-        public ICollection<Consulta>? Consultas { get; set; }
+        public ICollection<Agenda>? Agendas { get; set; } = new List<Agenda>();
+        public ICollection<Consulta>? Consultas { get; set; } = new List<Consulta>();
     }
 }

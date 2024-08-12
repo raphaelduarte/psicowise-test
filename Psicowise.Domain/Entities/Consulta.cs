@@ -35,6 +35,7 @@ namespace Psicowise.Domain.Entities
         }
             public Guid PacienteId { get; set; }
             public Guid PsicologoId { get; set; }
+            public Guid AgendaId { get; set; }
             public DateTime Inicio { get; set; }
             public DateTime Fim { get; set; }
             public string Observacoes { get; set; }

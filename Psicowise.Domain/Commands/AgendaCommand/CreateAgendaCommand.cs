@@ -6,13 +6,13 @@ namespace Psicowise.Domain.Commands.AgendaCommand;
 public class CreateAgendaCommand
 {
     public CreateAgendaCommand(
-        Psicologo psicologo,
+        Guid psicologoId,
         List<Horario> horarios
         )
     {
-        Psicologo = psicologo;
+        PsicologoId = psicologoId;
         Horarios = horarios;
     }
-    public Psicologo Psicologo { get; private set; }
+    public Guid PsicologoId { get; private set; }
     public List<Horario> Horarios { get; private set; }
 }

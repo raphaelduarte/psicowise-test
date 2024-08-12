@@ -31,7 +31,7 @@ public class AgendaQuery : IAgendaQuery
             return new Agenda
             {
                 Id = agendaModel.Id,
-                Psicologo = agendaModel.Psicologo,
+                PsicologoId = agendaModel.PsicologoId,
                 Pacientes = agendaModel.Pacientes,
                 Horarios = agendaModel.Horarios
             };

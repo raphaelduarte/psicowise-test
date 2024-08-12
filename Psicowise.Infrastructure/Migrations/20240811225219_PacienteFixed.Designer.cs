@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Psicowise.Infrastructure.Contexts;
@@ -11,9 +12,11 @@ using Psicowise.Infrastructure.Contexts;
 namespace Psicowise.Infrastructure.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20240811225219_PacienteFixed")]
+    partial class PacienteFixed
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -28,7 +31,7 @@ namespace Psicowise.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("PsicologoId")
+                    b.Property<Guid?>("PsicologoId")
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
@@ -38,63 +41,10 @@ namespace Psicowise.Infrastructure.Migrations
                     b.ToTable("Agendas");
                 });
 
-            modelBuilder.Entity("Psicowise.Domain.Entities.Consulta", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("AgendaId")
-                        .HasColumnType("uuid");
-
-                    b.Property<bool>("Cancelada")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("Confirmada")
-                        .HasColumnType("boolean");
-
-                    b.Property<DateTime>("Fim")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime>("Inicio")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Observacoes")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<bool>("PacienteFaltou")
-                        .HasColumnType("boolean");
-
-                    b.Property<Guid>("PacienteId")
-                        .HasColumnType("uuid");
-
-                    b.Property<bool>("Paga")
-                        .HasColumnType("boolean");
-
-                    b.Property<Guid>("PsicologoId")
-                        .HasColumnType("uuid");
-
-                    b.Property<bool>("Realizada")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("Remarcada")
-                        .HasColumnType("boolean");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AgendaId");
-
-                    b.HasIndex("PacienteId");
-
-                    b.HasIndex("PsicologoId");
-
-                    b.ToTable("Consulta");
-                });
-
             modelBuilder.Entity("Psicowise.Domain.Entities.Paciente", b =>
                 {
                     b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<Guid?>("AgendaId")
@@ -211,7 +161,7 @@ namespace Psicowise.Infrastructure.Migrations
                     b.Property<string>("Prognostico")
                         .HasColumnType("text");
 
-                    b.Property<Guid>("PsicologoId")
+                    b.Property<Guid?>("PsicologoId")
                         .HasColumnType("uuid");
 
                     b.Property<string>("Queixas")
@@ -252,6 +202,8 @@ namespace Psicowise.Infrastructure.Migrations
 
                     b.HasIndex("AgendaId");
 
+                    b.HasIndex("PsicologoId");
+
                     b.ToTable("Pacientes");
                 });
 
@@ -260,6 +212,12 @@ namespace Psicowise.Infrastructure.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
+
+                    b.Property<string>("Agendas")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Consultas")
+                        .HasColumnType("text");
 
                     b.Property<string>("Crp")
                         .IsRequired()
@@ -275,6 +233,10 @@ namespace Psicowise.Infrastructure.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Pacientes")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -307,32 +269,11 @@ namespace Psicowise.Infrastructure.Migrations
 
             modelBuilder.Entity("Psicowise.Domain.Entities.Agenda", b =>
                 {
-                    b.HasOne("Psicowise.Domain.Entities.Psicologo", null)
-                        .WithMany("Agendas")
-                        .HasForeignKey("PsicologoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
+                    b.HasOne("Psicowise.Domain.Entities.Psicologo", "Psicologo")
+                        .WithMany()
+                        .HasForeignKey("PsicologoId");
 
-            modelBuilder.Entity("Psicowise.Domain.Entities.Consulta", b =>
-                {
-                    b.HasOne("Psicowise.Domain.Entities.Agenda", null)
-                        .WithMany("Consultas")
-                        .HasForeignKey("AgendaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Psicowise.Domain.Entities.Paciente", null)
-                        .WithMany("Consultas")
-                        .HasForeignKey("PacienteId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Psicowise.Domain.Entities.Psicologo", null)
-                        .WithMany("Consultas")
-                        .HasForeignKey("PsicologoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("Psicologo");
                 });
 
             modelBuilder.Entity("Psicowise.Domain.Entities.Paciente", b =>
@@ -341,11 +282,11 @@ namespace Psicowise.Infrastructure.Migrations
                         .WithMany("Pacientes")
                         .HasForeignKey("AgendaId");
 
-                    b.HasOne("Psicowise.Domain.Entities.Psicologo", null)
-                        .WithMany("Pacientes")
-                        .HasForeignKey("Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("Psicowise.Domain.Entities.Psicologo", "Psicologo")
+                        .WithMany()
+                        .HasForeignKey("PsicologoId");
+
+                    b.Navigation("Psicologo");
                 });
 
             modelBuilder.Entity("Psicowise.Domain.ObjetosDeValor.Horario", b =>
@@ -357,23 +298,7 @@ namespace Psicowise.Infrastructure.Migrations
 
             modelBuilder.Entity("Psicowise.Domain.Entities.Agenda", b =>
                 {
-                    b.Navigation("Consultas");
-
                     b.Navigation("Horarios");
-
-                    b.Navigation("Pacientes");
-                });
-
-            modelBuilder.Entity("Psicowise.Domain.Entities.Paciente", b =>
-                {
-                    b.Navigation("Consultas");
-                });
-
-            modelBuilder.Entity("Psicowise.Domain.Entities.Psicologo", b =>
-                {
-                    b.Navigation("Agendas");
-
-                    b.Navigation("Consultas");
 
                     b.Navigation("Pacientes");
                 });

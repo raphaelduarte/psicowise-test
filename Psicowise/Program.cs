@@ -17,7 +17,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Adicionar serviços ao contêiner
 
 
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnectionString");
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 builder.Services.AddDbContext<DataContext>(optionsBuilder => 
     optionsBuilder.UseNpgsql(

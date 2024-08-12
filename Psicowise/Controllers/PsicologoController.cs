@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Psicowise.Domain.Commands;
 using Psicowise.Domain.Handlers;
 using Psicowise.Domain.Queries;
+using Psicowise.Domain.Queries.Contracts;
 
 namespace Psicowise.Controllers
 {
@@ -15,12 +16,15 @@ namespace Psicowise.Controllers
     public class PsicologoController : ControllerBase
     {
         private readonly PsicologoHandler _psicologoHandler;
+        private readonly IPsicologoQuery _psicologoQuery;
 
         public PsicologoController(
-            PsicologoHandler psicologoHandler
+            PsicologoHandler psicologoHandler,
+            IPsicologoQuery psicologoQuery
         )
         {
             _psicologoHandler = psicologoHandler;
+            _psicologoQuery = psicologoQuery;
         }
         
         [Route("createPsicologo")]
@@ -49,15 +53,15 @@ namespace Psicowise.Controllers
         
         [Route("getPsicologoById")]
         [HttpGet]
-        public async Task<IActionResult> GetPsycologoById([FromBody] Guid id)
+        public async Task<IActionResult> GetPsycologoById([FromHeader] Guid id)
         {
-            var psicologo = await GetPsycologoById(id);
+            var psicologo = await _psicologoQuery.GetPsicologoById(id);
             return Ok(psicologo);
         }
         
         [Route("getPacienteById")]
         [HttpGet]
-        public async Task<IActionResult> GetPacienteById([FromBody] Guid id)
+        public async Task<IActionResult> GetPacienteById([FromHeader] Guid id)
         {
             var paciente = await GetPacienteById(id);
             return Ok(paciente);
@@ -65,7 +69,7 @@ namespace Psicowise.Controllers
         
         [Route("getListaPacienteById")]
         [HttpGet]
-        public async Task<IActionResult> GetListaPacienteById([FromBody] Guid id)
+        public async Task<IActionResult> GetListaPacienteById([FromHeader] Guid id)
         {
             var listaPaciente = await GetListaPacienteById(id);
             return Ok(listaPaciente);

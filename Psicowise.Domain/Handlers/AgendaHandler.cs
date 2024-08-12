@@ -22,7 +22,7 @@ public class AgendaHandler : IHandler<CreateAgendaCommand>, IHandler<UpdateAgend
     public async Task<ICommandResult> Handle(CreateAgendaCommand command)
     {
         var agenda = new Agenda(
-            command.Psicologo,
+            command.PsicologoId,
             command.Horarios
         );
         await _repository.Create(agenda);
@@ -35,7 +35,7 @@ public class AgendaHandler : IHandler<CreateAgendaCommand>, IHandler<UpdateAgend
 
 
         var agendaCommand = new Agenda(
-            agendaContext.Result.Psicologo,
+            agendaContext.Result.Id,
             command.Horarios
         );
         await _repository.Update(agendaCommand);

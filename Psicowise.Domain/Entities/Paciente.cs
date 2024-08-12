@@ -22,7 +22,7 @@ namespace Psicowise.Domain.Entities
             string telefone,
             Endereco endereco,
             DateTime dataNascimento,
-            Guid idPsicologo
+            Guid psicologoId
         )
         {
             Nome = nome;
@@ -30,7 +30,7 @@ namespace Psicowise.Domain.Entities
             Telefone = telefone;
             Endereco = endereco;
             DataNascimento = dataNascimento;
-            IdPsicologo = idPsicologo;
+            PsicologoId = psicologoId;
         }
 
         public Paciente(
@@ -39,7 +39,7 @@ namespace Psicowise.Domain.Entities
             string telefone,
             Endereco endereco,
             DateTime dataNascimento,
-            Guid idPsicologo,
+            Guid psicologoId,
             string? cpf,
             string? rg,
             string? sexo,
@@ -89,7 +89,7 @@ namespace Psicowise.Domain.Entities
             Telefone = telefone;
             Endereco = endereco;
             DataNascimento = dataNascimento;
-            IdPsicologo = idPsicologo;
+            PsicologoId = psicologoId;
             Cpf = cpf;
             Rg = rg;
             Sexo = sexo;
@@ -135,53 +135,55 @@ namespace Psicowise.Domain.Entities
 
         }
 
-        public NomeCompleto Nome  { get; private set; }
-        public string Email { get; private set; }
-        public string Telefone { get; private set; }
-        public Endereco Endereco { get; private set; }
-        public DateTime DataNascimento { get; private set; }
-        public Guid IdPsicologo { get; private set; }
-        public string? Cpf { get; private set; }
-        public string? Rg { get; private set; }
-        public string? Sexo { get; private set; }
-        public string? EstadoCivil { get; private set; }
-        public string? Profissao { get; private set; }
-        public string? Escolaridade { get; private set; }
-        public string? Religiao { get; private set; }
-        public string? NomePai { get; private set; }
-        public string? NomeMae { get; private set; }
-        public string? Convenio { get; private set; }
-        public string? Plano { get; private set; }
-        public string? NumeroCarteirinha { get; private set; }
-        public string? ValidadeCarteirinha { get; private set; }
-        public string? Observacoes { get; private set; }
-        public string? MotivoConsulta { get; private set; }
-        public string? HistoricoFamiliar { get; private set; }
-        public string? HistoricoPessoal { get; private set; }
-        public string? HistoricoProfissional { get; private set; }
-        public string? HistoricoMedico { get; private set; }
-        public string? Medicamentos { get; private set; }
-        public string? Alergias { get; private set; }
-        public string? Cirurgias { get; private set; }
-        public string? Internacoes { get; private set; }
-        public string? Tabagismo { get; private set; }
-        public string? Alcoolismo { get; private set; }
-        public string? Drogas { get; private set; }
-        public string? AtividadeFisica { get; private set; }
-        public string? Alimentacao { get; private set; }
-        public string? Sono { get; private set; }
-        public string? Relacionamentos { get; private set; }
-        public string? Sexualidade { get; private set; }
-        public string? Lazer { get; private set; }
-        public string? Espiritualidade { get; private set; }
-        public string? Queixas { get; private set; }
-        public string? Objetivos { get; private set; }
-        public string? Expectativas { get; private set; }
-        public string? Diagnostico { get; private set; }
-        public string? Prognostico { get; private set; }
-        public string? PlanoTerapeutico { get; private set; }
-        public string? Encaminhamentos { get; private set; }
-        public string? ObservacoesConsulta { get; private set; }
-        public bool Status { get; private set; } = true;
+        public Guid PacienteId { get;  set; }
+        public NomeCompleto Nome  { get;  set; }
+        public Guid PsicologoId { get;  set; }
+        public ICollection<Consulta> Consultas { get;  set; }
+        public string Email { get;  set; }
+        public string Telefone { get;  set; }
+        public Endereco Endereco { get;  set; }
+        public DateTime DataNascimento { get;  set; }
+        public string? Cpf { get;  set; }
+        public string? Rg { get;  set; }
+        public string? Sexo { get;  set; }
+        public string? EstadoCivil { get;  set; }
+        public string? Profissao { get;  set; }
+        public string? Escolaridade { get;  set; }
+        public string? Religiao { get;  set; }
+        public string? NomePai { get;  set; }
+        public string? NomeMae { get;  set; }
+        public string? Convenio { get;  set; }
+        public string? Plano { get;  set; }
+        public string? NumeroCarteirinha { get;  set; }
+        public string? ValidadeCarteirinha { get;  set; }
+        public string? Observacoes { get;  set; }
+        public string? MotivoConsulta { get;  set; }
+        public string? HistoricoFamiliar { get;  set; }
+        public string? HistoricoPessoal { get;  set; }
+        public string? HistoricoProfissional { get;  set; }
+        public string? HistoricoMedico { get;  set; }
+        public string? Medicamentos { get;  set; }
+        public string? Alergias { get;  set; }
+        public string? Cirurgias { get;  set; }
+        public string? Internacoes { get;  set; }
+        public string? Tabagismo { get;  set; }
+        public string? Alcoolismo { get;  set; }
+        public string? Drogas { get;  set; }
+        public string? AtividadeFisica { get;  set; }
+        public string? Alimentacao { get;  set; }
+        public string? Sono { get;  set; }
+        public string? Relacionamentos { get;  set; }
+        public string? Sexualidade { get;  set; }
+        public string? Lazer { get;  set; }
+        public string? Espiritualidade { get;  set; }
+        public string? Queixas { get;  set; }
+        public string? Objetivos { get;  set; }
+        public string? Expectativas { get;  set; }
+        public string? Diagnostico { get;  set; }
+        public string? Prognostico { get;  set; }
+        public string? PlanoTerapeutico { get;  set; }
+        public string? Encaminhamentos { get;  set; }
+        public string? ObservacoesConsulta { get;  set; }
+        public bool Status { get;  set; } = true;
     }
 }
