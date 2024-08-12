@@ -8,7 +8,10 @@ using Psicowise.Domain.Repositories;
 
 namespace Psicowise.Domain.Handlers;
 
-public class PsicologoHandler : IHandler<CreatePsicologoCommand>, IHandler<UpdatePsicologoCommand>, IHandler<RemovePsicologoCommand>
+public class PsicologoHandler : 
+    IHandler<CreatePsicologoCommand>, 
+    IHandler<UpdatePsicologoCommand>, 
+    IHandler<RemovePsicologoCommand>
 {
     private readonly IPsicologoRepository _repository;
     private readonly IPsicologoQuery _query;

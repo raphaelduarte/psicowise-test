@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Psicowise.Domain.Commands;
-using Psicowise.Domain.Commands.PacienteCommand;
+using Psicowise.Domain.Commands;
 using Psicowise.Domain.Handlers;
 using Psicowise.Domain.Queries;
 using Psicowise.Domain.Queries.Contracts;
@@ -85,6 +85,14 @@ namespace Psicowise.Controllers
         [Route("createPaciente")]
         [HttpPost]
         public async Task<IActionResult> CreatePaciente([FromBody] CreatePacienteCommand command)
+        {
+            var paciente = await _pacienteHandler.Handle(command);
+            return Ok(paciente);
+        }
+        
+        [Route("removePaciente")]
+        [HttpDelete]
+        public async Task<IActionResult> RemovePaciente([FromBody] RemovePacienteCommand command)
         {
             var paciente = await _pacienteHandler.Handle(command);
             return Ok(paciente);

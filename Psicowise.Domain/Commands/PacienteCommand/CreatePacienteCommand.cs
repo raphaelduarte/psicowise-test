@@ -1,6 +1,6 @@
 using Psicowise.Domain.ObjetosDeValor;
 
-namespace Psicowise.Domain.Commands.PacienteCommand;
+namespace Psicowise.Domain.Commands;
 
 public class CreatePacienteCommand
 {
