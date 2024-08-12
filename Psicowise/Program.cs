@@ -36,8 +36,10 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IPsicologoRepository, PsicologoRepository>();
 builder.Services.AddScoped<IAgendaRepository, AgendaRepository>();
+builder.Services.AddScoped<IPacienteRepository, PacienteRepository>();
 
 builder.Services.AddScoped<IPsicologoQuery, PsicologoQuery>();
+builder.Services.AddScoped<IPacienteQuery, PacienteQuery>();
 builder.Services.AddScoped<IAgendaQuery, AgendaQuery>();
 
 builder.Services.AddTransient<PsicologoHandler, PsicologoHandler>();

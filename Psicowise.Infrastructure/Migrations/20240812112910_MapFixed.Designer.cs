@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Psicowise.Infrastructure.Contexts;
@@ -11,9 +12,11 @@ using Psicowise.Infrastructure.Contexts;
 namespace Psicowise.Infrastructure.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20240812112910_MapFixed")]
+    partial class MapFixed
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -218,6 +221,9 @@ namespace Psicowise.Infrastructure.Migrations
                     b.Property<Guid>("PsicologoId")
                         .HasColumnType("uuid");
 
+                    b.Property<Guid?>("PsicologoId1")
+                        .HasColumnType("uuid");
+
                     b.Property<string>("Queixas")
                         .HasColumnType("text");
 
@@ -257,6 +263,8 @@ namespace Psicowise.Infrastructure.Migrations
                     b.HasIndex("AgendaId");
 
                     b.HasIndex("PsicologoId");
+
+                    b.HasIndex("PsicologoId1");
 
                     b.ToTable("Pacientes");
                 });
@@ -356,10 +364,14 @@ namespace Psicowise.Infrastructure.Migrations
                         .HasForeignKey("AgendaId");
 
                     b.HasOne("Psicowise.Domain.Entities.Psicologo", "Psicologo")
-                        .WithMany("Pacientes")
+                        .WithMany()
                         .HasForeignKey("PsicologoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("Psicowise.Domain.Entities.Psicologo", null)
+                        .WithMany("Pacientes")
+                        .HasForeignKey("PsicologoId1");
 
                     b.Navigation("Psicologo");
                 });

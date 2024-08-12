@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -33,9 +34,19 @@ namespace Psicowise.Domain.Entities
             Paga = paga;
             PacienteFaltou = pacienteFaltou;
         }
+        
+            [ForeignKey("PacienteId")]
             public Guid PacienteId { get; set; }
+            
+            
+            [ForeignKey("PsicologoId")]
             public Guid PsicologoId { get; set; }
+            
+            
+            [ForeignKey("AgendaId")]
             public Guid AgendaId { get; set; }
+            
+            
             public DateTime Inicio { get; set; }
             public DateTime Fim { get; set; }
             public string Observacoes { get; set; }
@@ -45,5 +56,13 @@ namespace Psicowise.Domain.Entities
             public bool Confirmada { get; set; } = false;
             public bool Paga { get; set; } = false;
             public bool PacienteFaltou { get; set; } = false;
+            
+            
+            
+            //Propriedades de navegação
+            
+            public Psicologo Psicologo { get; set; }
+            public Paciente Paciente { get; set; }
+            public Agenda Agenda { get; set; }
     }
 }
