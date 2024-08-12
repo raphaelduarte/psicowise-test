@@ -81,7 +81,7 @@ public class DataContext : DbContext
                 v => JsonSerializer.Deserialize<Endereco>(v, new JsonSerializerOptions())!);
 
         entity.HasOne(paciente => paciente.Psicologo)
-            .WithMany()
+            .WithMany(p => p.Pacientes)
             .HasForeignKey(p => p.PsicologoId);
         
         // Configuração para Consultas
