@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 using Psicowise.Domain.ObjetosDeValor;
@@ -46,7 +47,15 @@ namespace Psicowise.Domain.Entities
         public new Guid Id { get; set; }
         public ICollection<Horario> Horarios { get; set; }
         public ICollection<Consulta> Consultas { get; set; }
+        
+        [ForeignKey("PsicologoId")]
         public Guid PsicologoId { get; set; }
         public ICollection<Paciente> Pacientes { get; set; }
+        
+        
+        
+        //Propriedades de navegação
+        
+        public Psicologo Psicologo { get; set; }
     }
 }

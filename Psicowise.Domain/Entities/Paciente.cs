@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 using Psicowise.Domain.ObjetosDeValor;
@@ -137,6 +138,9 @@ namespace Psicowise.Domain.Entities
 
         public Guid PacienteId { get;  set; }
         public NomeCompleto Nome  { get;  set; }
+        
+        
+        [ForeignKey("PsicologoId")]
         public Guid PsicologoId { get;  set; }
         public ICollection<Consulta> Consultas { get;  set; }
         public string Email { get;  set; }
@@ -185,5 +189,8 @@ namespace Psicowise.Domain.Entities
         public string? Encaminhamentos { get;  set; }
         public string? ObservacoesConsulta { get;  set; }
         public bool Status { get;  set; } = true;
+        
+        //Propriedades de navegação
+        public Psicologo Psicologo { get;  set; }
     }
 }

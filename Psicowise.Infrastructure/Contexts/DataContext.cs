@@ -42,17 +42,17 @@ public class DataContext : DbContext
 
         // Assumindo que você tem uma propriedade de navegação chamada Pacientes
         entity.HasMany(e => e.Pacientes)
-            .WithOne() // Adicione aqui a propriedade de navegação no Paciente se existir
-            .HasForeignKey(p => p.Id); // Ajuste para o nome correto da propriedade de chave estrangeira no Paciente
+            .WithOne(p =>p.Psicologo) // Adicione aqui a propriedade de navegação no Paciente se existir
+            .HasForeignKey(p => p.PsicologoId); // Ajuste para o nome correto da propriedade de chave estrangeira no Paciente
 
         // Configuração para Consultas
         entity.HasMany(e => e.Consultas)
-            .WithOne() // Adicione aqui a propriedade de navegação na Consulta se existir
+            .WithOne(p => p.Psicologo) // Adicione aqui a propriedade de navegação na Consulta se existir
             .HasForeignKey(c => c.PsicologoId); // Ajuste para o nome correto da propriedade de chave estrangeira na Consulta
 
         // Configuração para Agendas
         entity.HasMany(e => e.Agendas)
-            .WithOne() // Adicione aqui a propriedade de navegação na Agenda se existir
+            .WithOne(p => p.Psicologo) // Adicione aqui a propriedade de navegação na Agenda se existir
             .HasForeignKey(a => a.PsicologoId); // Ajuste para o nome correto da propriedade de chave estrangeira na Agenda
     });
 
@@ -62,7 +62,7 @@ public class DataContext : DbContext
 
         // Configuração para Consultas
         entity.HasMany(e => e.Consultas)
-            .WithOne() // Adicione aqui a propriedade de navegação na Consulta se existir
+            .WithOne(c =>c.Agenda) // Adicione aqui a propriedade de navegação na Consulta se existir
             .HasForeignKey(c => c.AgendaId); // Ajuste para o nome correto da propriedade de chave estrangeira na Consulta
     });
 
@@ -80,9 +80,13 @@ public class DataContext : DbContext
                 v => JsonSerializer.Serialize(v, new JsonSerializerOptions()),
                 v => JsonSerializer.Deserialize<Endereco>(v, new JsonSerializerOptions())!);
 
+        entity.HasOne(paciente => paciente.Psicologo)
+            .WithMany()
+            .HasForeignKey(p => p.PsicologoId);
+        
         // Configuração para Consultas
         entity.HasMany(e => e.Consultas)
-            .WithOne() // Adicione aqui a propriedade de navegação na Consulta se existir
+            .WithOne(p => p.Paciente) // Adicione aqui a propriedade de navegação na Consulta se existir
             .HasForeignKey(c => c.PacienteId); // Ajuste para o nome correto da propriedade de chave estrangeira na Consulta
     });
 
