@@ -8,7 +8,7 @@ public abstract class Entity : IEquatable<Entity?>
     {
         Id = Guid.NewGuid();
     }
-    public Guid Id { get; private set; }
+    public Guid Id { get;  set; }
     public bool Equals(Entity? other)
     {
         return other != null && Id == other.Id;

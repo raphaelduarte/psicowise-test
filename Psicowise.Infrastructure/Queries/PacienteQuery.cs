@@ -28,7 +28,7 @@ public class PacienteQuery : IPacienteQuery
 
             var paciente = new Paciente
             {
-                PacienteId = pacienteModel.Id,
+                Id = pacienteModel.Id,
                 Nome = pacienteModel.Nome,
                 Email = pacienteModel.Email,
                 Endereco = pacienteModel.Endereco,

@@ -89,7 +89,6 @@
                 bool status
                 )
             {
-                PsicologoId = psicologoId;
                 Nome = nome;
                 Email = email;
                 Telefone = telefone;
@@ -140,8 +139,6 @@
                 Status = status;
 
             }
-
-            public Guid PacienteId { get;  set; }
             public NomeCompleto Nome  { get;  set; }
             
             
