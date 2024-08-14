@@ -44,8 +44,11 @@ namespace Psicowise.Controllers
         
         [Route("updatePsicologo")]
         [HttpPut]
-        public async Task<IActionResult> UpdatePsicologo([FromBody] UpdatePsicologoCommand command)
+        public async Task<IActionResult> UpdatePsicologo(
+            [FromHeader] Guid id,
+            [FromBody] UpdatePsicologoCommand command)
         {
+            command.Id = id;
             var psicologo = await _psicologoHandler.Handle(command);
             return Ok(psicologo);
         }

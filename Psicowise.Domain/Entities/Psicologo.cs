@@ -9,11 +9,6 @@ namespace Psicowise.Domain.Entities
 {
     public class Psicologo : Entity
     {
-        public Psicologo(Guid id)
-        {
-            Id = id;
-        }
-
         public Psicologo()
         {
             Nome = new NomeCompleto("", "")!;
@@ -31,11 +26,27 @@ namespace Psicowise.Domain.Entities
         }
         
         public Psicologo(
+            Endereco? endereco,
+            Telefone? telefone
+            )
+        {
+            Telefone = telefone;
+            Endereco = endereco;
+        }
+        
+        public Psicologo(
+            Telefone? telefone
+        )
+        {
+            Telefone = telefone;
+        }
+        
+        public Psicologo(
             NomeCompleto nome,
             string crp,
             string email,
             Telefone telefone,
-            Endereco? endereco
+            Endereco endereco
             )
         {
             Nome = nome;
@@ -50,7 +61,7 @@ namespace Psicowise.Domain.Entities
             string crp,
             string email,
             Telefone telefone,
-            Endereco? endereco,
+            Endereco endereco,
             List<Paciente?> pacientes
         )
         {
@@ -63,13 +74,12 @@ namespace Psicowise.Domain.Entities
             
             
         }
-        public new Guid Id { get;  set; }
         public NomeCompleto Nome { get; set; }
         public string Crp { get; set; }
         public string Email { get; set; }
         public Telefone Telefone { get; set; }
         public ICollection<Paciente>? Pacientes { get; set; } = new List<Paciente>();
-        public Endereco? Endereco { get; set; }
+        public Endereco Endereco { get; set; }
         public ICollection<Agenda>? Agendas { get; set; } = new List<Agenda>();
         public ICollection<Consulta>? Consultas { get; set; } = new List<Consulta>();
         public DateTime CreatedAt { get; set; }

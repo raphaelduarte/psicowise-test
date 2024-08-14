@@ -39,7 +39,10 @@ public class PsicologoQuery : IPsicologoQuery
                 Crp = psicologoModel.Crp,
                 Consultas = psicologoModel.Consultas,
                 Pacientes = psicologoModel.Pacientes,
-                Agendas = psicologoModel.Agendas
+                Agendas = psicologoModel.Agendas,
+                Telefone = psicologoModel.Telefone,
+                CreatedAt = psicologoModel.CreatedAt,
+                UpdatedAt = psicologoModel.UpdatedAt
             };
 
             return psicologo;

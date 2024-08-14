@@ -10,6 +10,6 @@ public class Telefone
         Ddd = ddd;
         Numero = numero;
     }
-    public string Ddd { get; private set; }
-    public string Numero { get; private set; }
+    public string Ddd { get; set; }
+    public string Numero { get; set; }
 }
