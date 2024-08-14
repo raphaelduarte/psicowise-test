@@ -18,10 +18,12 @@ public class CreatePsicologoCommand
         Telefone = telefone;
         Crp = crp;
         Endereco = endereco;
+        CreatedAt = DateTime.Now.ToUniversalTime();
     }
     public NomeCompleto Nome { get; set; }
     public string Email { get; set; }
     public Telefone Telefone { get; set; }
     public string Crp { get; set; }
     public Endereco Endereco { get; set; }
+    public DateTime CreatedAt { get; set; }
 }

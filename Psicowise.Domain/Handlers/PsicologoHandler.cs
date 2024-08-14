@@ -31,23 +31,68 @@ public class PsicologoHandler :
             command.Telefone,
             command.Endereco
         );
+        
+        psicologo.CreatedAt = command.CreatedAt;
+        
         await _repository.Create(psicologo);
         return new GenericCommandResult(true, "Psicologo criado com sucesso", psicologo);
     }
 
+    //TODO: Implementar a atualização de psicólogo - Tarefa ATUAL
     public async Task<ICommandResult> Handle(UpdatePsicologoCommand command)
     {
         var psicologo = await _query.GetPsicologoById(command.Id);
+        
         if (psicologo == null)
         {
             return new GenericCommandResult(false, "Psicólogo não encontrado", default);
         }
 
-        // Atualize as propriedades do psicólogo aqui
-        // psicologo.Nome = command.Nome;
-        // psicologo.Crp = command.Crp;
-        // psicologo.Email = command.Email;
-        // ... outras propriedades ...
+        if (command.Endereco != null)
+        {
+            if (command.Endereco.Logradouro != null)
+            {
+                psicologo.Endereco.Logradouro = command.Endereco.Logradouro;
+            }
+        
+            if (command.Endereco.Numero != null)
+            {
+                psicologo.Endereco.Numero = command.Endereco.Numero;
+            }
+        
+            if (command.Endereco.Bairro != null)
+            {
+                psicologo.Endereco.Bairro = command.Endereco.Bairro;
+            }
+        
+            if (command.Endereco.Cidade != null)
+            {
+                psicologo.Endereco.Cidade = command.Endereco.Cidade;
+            }
+        
+            if (command.Endereco.Estado != null)
+            {
+                psicologo.Endereco.Estado = command.Endereco.Estado;
+            }
+        
+            if (command.Endereco.Cep != null)
+            {
+                psicologo.Endereco.Cep = command.Endereco.Cep;
+            }
+        }
+
+        if (command.Telefone != null)
+        {
+            if (command.Telefone.Ddd != null)
+            {
+                psicologo.Telefone.Ddd = command.Telefone.Ddd;
+            }
+        
+            if (command.Telefone.Numero != null)
+            {
+                psicologo.Telefone.Numero = command.Telefone.Numero;
+            }
+        }
 
         await _repository.Update(psicologo);
 

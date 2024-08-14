@@ -19,7 +19,7 @@ public class CreatePacienteCommand
         Telefone = telefone;
         Endereco = endereco;
         DataNascimento = dataNascimento;
-        CreatedAt = DateTime.Now;
+        CreatedAt = DateTime.Now.ToUniversalTime();
         
     }
     public Guid PsicologoId { get;  set; }
@@ -28,5 +28,5 @@ public class CreatePacienteCommand
     public Telefone Telefone { get;  set; }
     public Endereco Endereco { get;  set; }
     public DateTime DataNascimento { get;  set; }
-    public DateTime CreatedAt { get;  set; } = DateTime.Now;
+    public DateTime CreatedAt { get;  set; }
 }
