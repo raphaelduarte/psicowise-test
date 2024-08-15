@@ -24,8 +24,7 @@
                 string email,
                 Telefone telefone,
                 Endereco endereco,
-                DateTime dataNascimento,
-                DateTime createdAt
+                DateTime dataNascimento
             )
             {
                 Nome = nome;
@@ -34,7 +33,6 @@
                 Endereco = endereco;
                 DataNascimento = dataNascimento;
                 PsicologoId = psicologoId;
-                CreatedAt = createdAt;
             }
 
 
