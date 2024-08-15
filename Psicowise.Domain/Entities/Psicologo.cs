@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
-using System.Linq;
 using System.Threading.Tasks;
+using System.Linq;
 using Psicowise.Domain.ObjetosDeValor;
 
 namespace Psicowise.Domain.Entities
@@ -73,7 +73,7 @@ namespace Psicowise.Domain.Entities
             Pacientes = pacientes;
             
             
-        }
+        } 
         public NomeCompleto Nome { get; set; }
         public string Crp { get; set; }
         public string Email { get; set; }

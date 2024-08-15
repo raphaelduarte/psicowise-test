@@ -15,7 +15,7 @@
                 Nome = new NomeCompleto("", "");
                 Email = string.Empty;
                 Telefone = new Telefone("", "");
-                Endereco = new Endereco("", "", "", "", "", "", "");
+                Endereco = new Endereco();
             }
 
             public Paciente(
