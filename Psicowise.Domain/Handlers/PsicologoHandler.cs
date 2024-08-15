@@ -37,8 +37,6 @@ public class PsicologoHandler :
         await _repository.Create(psicologo);
         return new GenericCommandResult(true, "Psicologo criado com sucesso", psicologo);
     }
-
-    //TODO: Implementar a atualização de psicólogo - Tarefa ATUAL
     public async Task<ICommandResult> Handle(UpdatePsicologoCommand command)
     {
         var psicologo = await _query.GetPsicologoById(command.Id);

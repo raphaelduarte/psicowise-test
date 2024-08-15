@@ -23,6 +23,7 @@ public class PacienteHandler :
         _pacienteQuery = pacienteQuery;
     }
     
+    //TODO: Implementar CreatePaciente e consertar o CreatedAt
     public async Task<ICommandResult> Handle(CreatePacienteCommand command)
     {
         var paciente = new Paciente(
@@ -31,9 +32,11 @@ public class PacienteHandler :
             command.Email,
             command.Telefone,
             command.Endereco,
-            command.DataNascimento,
-            command.CreatedAt
+            command.DataNascimento
         );
+        
+        paciente.CreatedAt = DateTime.Now.ToUniversalTime();
+        
         await _pacienteRepository.Create(paciente);
         return new GenericCommandResult(true, "Paciente criado com sucesso", paciente);
     }

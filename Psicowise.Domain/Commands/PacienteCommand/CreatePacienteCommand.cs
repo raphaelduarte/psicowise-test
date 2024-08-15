@@ -20,7 +20,7 @@ public class CreatePacienteCommand
         Endereco = endereco;
         DataNascimento = dataNascimento;
         CreatedAt = DateTime.Now.ToUniversalTime();
-        
+
     }
     public Guid PsicologoId { get;  set; }
     public NomeCompleto Nome { get;  set; }
