@@ -49,14 +49,16 @@ namespace Psicowise.Controllers
             [FromBody] UpdatePsicologoCommand command)
         {
             command.Id = id;
+            
             var psicologo = await _psicologoHandler.Handle(command);
             return Ok(psicologo);
         }
         
         [Route("removePsicologo")]
         [HttpDelete]
-        public async Task<IActionResult> RemovePsicologo([FromBody] RemovePsicologoCommand command)
+        public async Task<IActionResult> RemovePsicologo([FromHeader] Guid id)
         {
+            var command = new RemovePsicologoCommand(id);
             var psicologo = await _psicologoHandler.Handle(command);
             return Ok(psicologo);
         }
@@ -95,8 +97,9 @@ namespace Psicowise.Controllers
         
         [Route("removePaciente")]
         [HttpDelete]
-        public async Task<IActionResult> RemovePaciente([FromBody] RemovePacienteCommand command)
+        public async Task<IActionResult> RemovePaciente([FromHeader] Guid id)
         {
+            var command = new RemovePacienteCommand(id);
             var paciente = await _pacienteHandler.Handle(command);
             return Ok(paciente);
         }

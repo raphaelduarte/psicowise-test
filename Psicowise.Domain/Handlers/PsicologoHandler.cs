@@ -42,6 +42,7 @@ public class PsicologoHandler :
     public async Task<ICommandResult> Handle(UpdatePsicologoCommand command)
     {
         var psicologo = await _query.GetPsicologoById(command.Id);
+        psicologo.UpdatedAt = DateTime.Now.ToUniversalTime();
         
         if (psicologo == null)
         {
