@@ -14,6 +14,7 @@ public class DataContext : DbContext
     public DbSet<Psicologo> Psicologos { get; set; }
     public DbSet<Agenda> Agendas { get; set; }
     public DbSet<Paciente> Pacientes { get; set; }
+    public DbSet<Consulta> Consultas { get; set; }
     // Adicione outros DbSets conforme necessário
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -109,6 +110,31 @@ public class DataContext : DbContext
 
         entity.Property(e => e.FimConsulta)
             .IsRequired();
+    });
+    
+    modelBuilder.Entity<Consulta>(entity =>
+    {
+        entity.HasKey(e => e.Id);
+
+        entity.Property(e => e.Horario)
+            .HasConversion(
+                v => JsonSerializer.Serialize(v, new JsonSerializerOptions()),
+                v => JsonSerializer.Deserialize<Horario>(v, new JsonSerializerOptions())!);
+
+        entity.Property(e => e.Observacoes)
+            .HasMaxLength(255);
+
+        entity.HasOne(consulta => consulta.Psicologo)
+            .WithMany(p => p.Consultas)
+            .HasForeignKey(c => c.PsicologoId);
+
+        entity.HasOne(consulta => consulta.Paciente)
+            .WithMany(p => p.Consultas)
+            .HasForeignKey(c => c.PacienteId);
+
+        entity.HasOne(consulta => consulta.Agenda)
+            .WithMany(a => a.Consultas)
+            .HasForeignKey(c => c.AgendaId);
     });
 
     base.OnModelCreating(modelBuilder);
