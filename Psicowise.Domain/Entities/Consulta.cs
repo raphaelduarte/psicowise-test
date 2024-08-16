@@ -3,16 +3,32 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
+using Psicowise.Domain.ObjetosDeValor;
 
 namespace Psicowise.Domain.Entities
 {
     public class Consulta : Entity
     {
+        public Consulta()
+        {
+            
+        }
+
+        public Consulta(
+            Guid psicologoId,
+            Guid pacienteId,
+            Horario horario
+            )
+            
+        {
+            PsicologoId = psicologoId;
+            PacienteId = pacienteId;
+            Horario = horario;
+        }
         public Consulta(
             Guid pacienteId,
             Guid psicologoId,
-            DateTime inicio,
-            DateTime fim,
+            Horario horario,
             string observacoes,
             bool realizada,
             bool cancelada,
@@ -24,8 +40,7 @@ namespace Psicowise.Domain.Entities
         {
             PacienteId = pacienteId;
             PsicologoId = psicologoId;
-            Inicio = inicio;
-            Fim = fim;
+            Horario = horario;
             Observacoes = observacoes;
             Realizada = realizada;
             Cancelada = cancelada;
@@ -47,8 +62,7 @@ namespace Psicowise.Domain.Entities
             public Guid AgendaId { get; set; }
             
             
-            public DateTime Inicio { get; set; }
-            public DateTime Fim { get; set; }
+            public Horario Horario { get; set; }
             public string Observacoes { get; set; }
             public bool Realizada { get; set; } = false;
             public bool Cancelada { get; set; } = false;
@@ -56,6 +70,8 @@ namespace Psicowise.Domain.Entities
             public bool Confirmada { get; set; } = false;
             public bool Paga { get; set; } = false;
             public bool PacienteFaltou { get; set; } = false;
+            public DateTime CreatedAt { get; set; }
+            public DateTime UpdatedAt { get; set; }
             
             
             

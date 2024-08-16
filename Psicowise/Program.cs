@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Psicowise.Domain.Commands;
 using Psicowise.Domain.Commands.Interfaces;
+using Psicowise.Domain.Entities;
 using Psicowise.Domain.Handlers;
 using Psicowise.Domain.Queries.Contracts;
 using Psicowise.Domain.Repositories;
@@ -37,14 +38,17 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IPsicologoRepository, PsicologoRepository>();
 builder.Services.AddScoped<IAgendaRepository, AgendaRepository>();
 builder.Services.AddScoped<IPacienteRepository, PacienteRepository>();
+builder.Services.AddScoped<IConsultaRepository, ConsultaRepository>();
 
 builder.Services.AddScoped<IPsicologoQuery, PsicologoQuery>();
 builder.Services.AddScoped<IPacienteQuery, PacienteQuery>();
 builder.Services.AddScoped<IAgendaQuery, AgendaQuery>();
+builder.Services.AddScoped<IConsultaQuery, ConsultaQuery>();
 
 builder.Services.AddTransient<PsicologoHandler, PsicologoHandler>();
 builder.Services.AddTransient<AgendaHandler, AgendaHandler>();
 builder.Services.AddTransient<PacienteHandler, PacienteHandler>();
+builder.Services.AddTransient<ConsultaHandler, ConsultaHandler>();
 
 // Configurar o DbContext
 builder.Services.AddDbContext<DataContext>();
