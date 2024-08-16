@@ -103,5 +103,17 @@ namespace Psicowise.Controllers
             var paciente = await _pacienteHandler.Handle(command);
             return Ok(paciente);
         }
+        
+        [Route("updatePaciente")]
+        [HttpPut]
+        public async Task<IActionResult> UpdatePaciente(
+            [FromHeader] Guid id,
+            [FromBody] UpdatePacienteCommand command)
+        {
+            command.Id = id;
+        
+            var paciente = await _pacienteHandler.Handle(command);
+            return Ok(paciente);
+        }
     }
 }
