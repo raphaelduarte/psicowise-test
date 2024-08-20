@@ -44,7 +44,7 @@ public class AgendaHandler : IHandler<CreateAgendaCommand>, IHandler<UpdateAgend
     
     public async Task<ICommandResult> Handle(RemoveAgendaCommand command)
     {
-        var agenda = _query.GetAgendaById(command.Agenda.Id).Result;
+        var agenda = _query.GetAgendaById(command.AgendaId).Result;
         await _repository.Remove(agenda);
         return new GenericCommandResult(true, "Agenda deletada com sucesso", agenda);
     }

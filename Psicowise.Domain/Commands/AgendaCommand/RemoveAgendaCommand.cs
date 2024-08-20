@@ -4,9 +4,9 @@ namespace Psicowise.Domain.Commands.AgendaCommand;
 
 public class RemoveAgendaCommand
 {
-    public RemoveAgendaCommand(Agenda agenda)
+    public RemoveAgendaCommand(Guid agendaId)
     {
-        Agenda = agenda;
+        AgendaId = agendaId;
     }
-    public Agenda Agenda { get; set; }
+    public Guid AgendaId { get; set; }
 }

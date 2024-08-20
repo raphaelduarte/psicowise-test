@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Psicowise.Domain.Commands;
 using Psicowise.Domain.Commands.AgendaCommand;
 using Psicowise.Domain.Handlers;
 
@@ -40,8 +41,9 @@ namespace Psicowise.Controllers
         
         [Route("removeAgenda")]
         [HttpDelete]
-        public async Task<IActionResult> RemoveAgenda([FromBody] RemoveAgendaCommand command)
+        public async Task<IActionResult> RemoveAgenda([FromHeader] Guid id)
         {
+            var command = new RemoveAgendaCommand(id);
             var agenda = await _agendaHandler.Handle(command);
             return Ok(agenda);
         }

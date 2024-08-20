@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Psicowise.Domain.Commands;
 using Psicowise.Domain.Commands.ConsultaCommand;
 using Psicowise.Domain.Handlers;
 
@@ -33,8 +34,9 @@ public class ConsultaController : ControllerBase
         
     [Route("removeConsulta")]
     [HttpDelete]
-    public async Task<IActionResult> RemoveAgenda([FromBody] RemoveConsultaCommand command)
+    public async Task<IActionResult> RemoveAgenda([FromHeader] Guid id)
     {
+        var command = new RemoveConsultaCommand(id);
         var consulta = await _consultaHandler.Handle(command);
         return Ok(consulta);
     }
