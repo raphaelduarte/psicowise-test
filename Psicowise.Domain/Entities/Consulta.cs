@@ -17,12 +17,14 @@ namespace Psicowise.Domain.Entities
         public Consulta(
             Guid psicologoId,
             Guid pacienteId,
+            Guid agendaId,
             Horario horario
             )
             
         {
             PsicologoId = psicologoId;
             PacienteId = pacienteId;
+            AgendaId = agendaId;
             Horario = horario;
         }
         public Consulta(

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Psicowise.Domain.Commands;
 using Psicowise.Domain.Commands.AgendaCommand;
 using Psicowise.Domain.Handlers;
+using Psicowise.Domain.Queries.Contracts;
 
 namespace Psicowise.Controllers
 {
@@ -15,12 +16,15 @@ namespace Psicowise.Controllers
     public class AgendaController : ControllerBase
     {
         private readonly AgendaHandler _agendaHandler;
+        private readonly IAgendaQuery _agendaQuery;
 
         public AgendaController(
-            AgendaHandler agendaHandler
+            AgendaHandler agendaHandler,
+            IAgendaQuery agendaQuery
             )
         {
             _agendaHandler = agendaHandler;
+            _agendaQuery = agendaQuery;
         }
         
         [Route("createAgenda")]
@@ -46,6 +50,19 @@ namespace Psicowise.Controllers
             var command = new RemoveAgendaCommand(id);
             var agenda = await _agendaHandler.Handle(command);
             return Ok(agenda);
+        }
+
+        [Route("verificarDisponibilidadeDeHorarioNaAgenda")]
+        [HttpGet]
+        public async Task<IActionResult> DisponibilidadeNaAgenda(
+            [FromHeader] 
+            Guid psicologoId, 
+            DateTime horaEDiaDisponivel
+        )
+
+        {
+            var disponivel = _agendaQuery.VerificarDisponibilidade(psicologoId, horaEDiaDisponivel);
+            return Ok(disponivel);
         }
     }
 }
