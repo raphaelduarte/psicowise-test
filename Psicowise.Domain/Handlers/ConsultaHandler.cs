@@ -32,6 +32,7 @@ public class ConsultaHandler:
         var consulta = new Consulta(
             command.PacienteId,
             command.PsicologoId,
+            command.AgendaId,
             command.Horario
         );
         

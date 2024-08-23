@@ -42,4 +42,27 @@ public class AgendaQuery : IAgendaQuery
             throw new Exception("Um erro ocorreu enquanto atualizava uma agenda.", ex);
         }
     }
+
+    public Task<bool> VerificarDisponibilidade(Guid psicologoId, DateTime horarioEDiaDesejado)
+    {
+        // Trazer todas as consultas do psicólogo e fazer a verificação em memória
+        var consultas = _context.Consultas
+            .Where(c => c.PsicologoId == psicologoId)
+            .AsEnumerable() // Traz os dados para memória para a comparação de DateTime
+            .Any(c => c.Horario.InicioConsulta <= horarioEDiaDesejado && c.Horario.FimConsulta >= horarioEDiaDesejado);
+
+        if (consultas)
+        {
+            return Task.FromResult(false);
+        }
+
+        // Verifica se o horário desejado está disponível na agenda do psicólogo
+        var horarioDisponivel = !_context.Agendas
+            .Where(a => a.PsicologoId == psicologoId)
+            .SelectMany(a => a.Horarios)
+            .AsEnumerable() // Traz os dados para memória para a comparação de DateTime
+            .Any(h => h.InicioConsulta <= horarioEDiaDesejado && h.FimConsulta >= horarioEDiaDesejado);
+
+        return Task.FromResult(horarioDisponivel);
+    }
 }

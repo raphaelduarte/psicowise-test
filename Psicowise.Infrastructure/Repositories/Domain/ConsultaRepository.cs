@@ -20,6 +20,7 @@ public class ConsultaRepository : IConsultaRepository
         {
             PacienteId = consulta.PacienteId,
             PsicologoId = consulta.PsicologoId,
+            AgendaId = consulta.AgendaId,
             Horario = consulta.Horario,
             Observacoes = consulta.Observacoes,
             Realizada = consulta.Realizada,
