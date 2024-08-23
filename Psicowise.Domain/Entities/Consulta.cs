@@ -27,31 +27,7 @@ namespace Psicowise.Domain.Entities
             AgendaId = agendaId;
             Horario = horario;
         }
-        public Consulta(
-            Guid pacienteId,
-            Guid psicologoId,
-            Horario horario,
-            string observacoes,
-            bool realizada,
-            bool cancelada,
-            bool remarcada,
-            bool confirmada,
-            bool paga,
-            bool pacienteFaltou
-        )
-        {
-            PacienteId = pacienteId;
-            PsicologoId = psicologoId;
-            Horario = horario;
-            Observacoes = observacoes;
-            Realizada = realizada;
-            Cancelada = cancelada;
-            Remarcada = remarcada;
-            Confirmada = confirmada;
-            Paga = paga;
-            PacienteFaltou = pacienteFaltou;
-        }
-        
+
             [ForeignKey("PacienteId")]
             public Guid PacienteId { get; set; }
             
@@ -65,7 +41,7 @@ namespace Psicowise.Domain.Entities
             
             
             public Horario Horario { get; set; }
-            public string Observacoes { get; set; }
+            public string? Observacoes { get; set; }
             public bool Realizada { get; set; } = false;
             public bool Cancelada { get; set; } = false;
             public bool Remarcada { get; set; } = false;
