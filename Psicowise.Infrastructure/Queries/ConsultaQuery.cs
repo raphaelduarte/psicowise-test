@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+using Psicowise.Domain.Dtos;
 using Psicowise.Domain.Entities;
 using Psicowise.Domain.Queries.Contracts;
 using Psicowise.Infrastructure.Contexts;
@@ -50,5 +52,23 @@ public class ConsultaQuery : IConsultaQuery
         {
             throw new Exception("Um erro ocorreu enquanto atualizava uma consulta.", ex);
         }
+    }
+
+    public async Task<List<ConsultaDto>> GetAllConsultasDoPsicologo(Guid psicologoId)
+    {
+        var consultas = _context.Consultas.Select(c => new ConsultaDto
+        {
+            Id = c.Id,
+            DataConsulta = c.Horario.InicioConsulta,
+            Observacoes = c.Observacoes,
+            Paciente = new PacienteDto
+            {
+                Id = c.Paciente.Id,
+                NomeCompleto = $"{c.Paciente.Nome.Nome} {c.Paciente.Nome.Sobrenome}",
+                Email = c.Paciente.Email
+            }
+        }).ToList();
+
+        return consultas;
     }
 }
