@@ -17,29 +17,47 @@ public class ConsultaHandler:
 {
     private readonly IConsultaRepository _consultaRepository;
     private readonly IConsultaQuery _consultaQuery;
+    private readonly IPacienteQuery _pacienteQuery;
     
     public ConsultaHandler(
         IConsultaRepository consultaRepository,
-        IConsultaQuery consultaQuery
+        IConsultaQuery consultaQuery,
+        IPacienteQuery pacienteQuery
         )
     {
         _consultaRepository = consultaRepository;
         _consultaQuery = consultaQuery;
+        _pacienteQuery = pacienteQuery;
     }
     
     public async Task<ICommandResult> Handle(CreateConsultaCommand command)
     {
-        var consulta = new Consulta(
-            command.PacienteId,
-            command.PsicologoId,
-            command.AgendaId,
-            command.Horario
-        );
-        
-        consulta.CreatedAt = command.CreatedAt;
-        
-        await _consultaRepository.Create(consulta);
-        return new GenericCommandResult(true, "Consulta criada com sucesso", consulta);
+        try
+        {
+            var consulta = new Consulta(
+                command.PsicologoId,
+                command.PacienteId,
+                command.AgendaId,
+                command.Horario
+            );
+
+            consulta.CreatedAt = command.CreatedAt;
+
+            var pacienteExiste = _pacienteQuery.GetPacienteById(command.PacienteId).Result;
+
+            if (pacienteExiste == null)
+            {
+                return new GenericCommandResult(false, "A consulta não pode ser criada, pois não é possível criar uma consulta sem paciente.", default);
+            }
+
+            await _consultaRepository.Create(consulta);
+            return new GenericCommandResult(true, "Consulta criada com sucesso", consulta);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
     
     

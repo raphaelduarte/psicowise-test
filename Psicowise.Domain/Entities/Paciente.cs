@@ -142,6 +142,7 @@
             
             [ForeignKey("PsicologoId")]
             public Guid PsicologoId { get;  set; }
+
             public ICollection<Consulta> Consultas { get;  set; }
             public string Email { get;  set; }
             public Telefone Telefone { get;  set; }

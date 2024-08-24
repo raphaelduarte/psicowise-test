@@ -25,10 +25,9 @@ builder.Services.AddDbContext<DataContext>(optionsBuilder =>
         connectionString,
         options => options.EnableRetryOnFailure(
             maxRetryCount: 3,
-            maxRetryDelay: TimeSpan.FromMicroseconds(100),
-            errorCodesToAdd: null))
-        .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking),
-    ServiceLifetime.Transient
+            maxRetryDelay: TimeSpan.FromMilliseconds(100),
+            errorCodesToAdd: null)),
+    ServiceLifetime.Scoped
 );
 
 builder.Services.AddControllers();

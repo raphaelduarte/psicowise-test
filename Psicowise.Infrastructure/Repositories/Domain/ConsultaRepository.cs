@@ -18,6 +18,7 @@ public class ConsultaRepository : IConsultaRepository
     {
         var _consulta = new Consulta
         {
+            Id = consulta.Id,
             PacienteId = consulta.PacienteId,
             PsicologoId = consulta.PsicologoId,
             AgendaId = consulta.AgendaId,
