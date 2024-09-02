@@ -53,6 +53,18 @@ builder.Services.AddTransient<ConsultaHandler, ConsultaHandler>();
 // Configurar o DbContext
 builder.Services.AddDbContext<DataContext>();
 
+// Adicionar serviço CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", builder =>
+    {
+        builder.AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader();
+    });
+});
+
+
 var app = builder.Build();
 
 // Configure o pipeline de requisição HTTP
@@ -61,12 +73,16 @@ if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
     app.UseSwagger();
     app.UseSwaggerUI(c =>
     {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Psicowise API V1");
         c.RoutePrefix = string.Empty; // Serve Swagger UI na raiz do app
     });
 }
 
 //app.UseHttpsRedirection();
 app.UseAuthorization();
+
+// Usar o middleware CORS
+app.UseCors("AllowAll");
+
 app.MapControllers();
 app.Run();
