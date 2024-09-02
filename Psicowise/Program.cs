@@ -43,6 +43,7 @@ builder.Services.AddScoped<IPsicologoQuery, PsicologoQuery>();
 builder.Services.AddScoped<IPacienteQuery, PacienteQuery>();
 builder.Services.AddScoped<IAgendaQuery, AgendaQuery>();
 builder.Services.AddScoped<IConsultaQuery, ConsultaQuery>();
+builder.Services.AddScoped<ITesteQuery, TesteQuery>();
 
 builder.Services.AddTransient<PsicologoHandler, PsicologoHandler>();
 builder.Services.AddTransient<AgendaHandler, AgendaHandler>();

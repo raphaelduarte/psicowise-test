@@ -29,7 +29,9 @@ namespace Psicowise.Controllers
         
         [Route("createAgenda")]
         [HttpPost]
-        public async Task<IActionResult> CreateAgenda([FromBody] CreateAgendaCommand command)
+        public async Task<IActionResult> CreateAgenda(
+            [FromBody] CreateAgendaCommand command
+            )
         {
             var agenda = await _agendaHandler.Handle(command);
             return Ok(agenda);
@@ -37,7 +39,9 @@ namespace Psicowise.Controllers
         
         [Route("updateAgenda")]
         [HttpPut]
-        public async Task<IActionResult> UpdateAgenda([FromBody] UpdateAgendaCommand command)
+        public async Task<IActionResult> UpdateAgenda(
+            [FromBody] UpdateAgendaCommand command
+            )
         {
             var agenda = await _agendaHandler.Handle(command);
             return Ok(agenda);
@@ -45,7 +49,9 @@ namespace Psicowise.Controllers
         
         [Route("removeAgenda")]
         [HttpDelete]
-        public async Task<IActionResult> RemoveAgenda([FromHeader] Guid id)
+        public async Task<IActionResult> RemoveAgenda(
+            [FromHeader] Guid id
+            )
         {
             var command = new RemoveAgendaCommand(id);
             var agenda = await _agendaHandler.Handle(command);
