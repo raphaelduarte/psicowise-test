@@ -2,7 +2,12 @@
 
 public enum ETipoLembrete
 {
-    VinteQuatroHorasAntes,
-    UmDiaAntes,
-    UmaHoraAntes
+    VinteQuatroHorasAntesPaciente,
+    UmDiaAntesPaciente,
+    UmaHoraAntesPaciente,
+    PagamentoAtrasadoPaciente,
+    VinteQuatroHorasAntesPsicologo,
+    UmDiaAntesPsicologo,
+    UmaHoraAntesPsicologo,
+    PagamentoAtrasadoPsicologo
 }
