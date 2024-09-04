@@ -144,7 +144,8 @@
             public Guid PsicologoId { get;  set; }
 
             public ICollection<Consulta> Consultas { get;  set; }
-            public string Email { get;  set; }
+            public ICollection<Lembrete> Lembretes { get; set; }
+        public string Email { get;  set; }
             public Telefone Telefone { get;  set; }
             public Endereco Endereco { get;  set; }
             public DateTime DataNascimento { get;  set; }

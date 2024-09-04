@@ -15,6 +15,7 @@ public class DataContext : DbContext
     public DbSet<Agenda> Agendas { get; set; }
     public DbSet<Paciente> Pacientes { get; set; }
     public DbSet<Consulta> Consultas { get; set; }
+    public DbSet<Lembrete> Lembretes { get; set; }
     // Adicione outros DbSets conforme necessário
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -137,6 +138,35 @@ public class DataContext : DbContext
             .HasForeignKey(c => c.AgendaId);
     });
 
-    base.OnModelCreating(modelBuilder);
+    modelBuilder.Entity<Lembrete>(entity =>
+    {
+        entity.HasKey(e => e.Id);
+
+        entity.Property(e => e.Tipo)
+            .IsRequired();
+
+        entity.Property(e => e.Mensagem)
+            .HasMaxLength(255);
+
+        entity.Property(e => e.DataDeDisparo)
+            .IsRequired();
+
+        entity.Property(e => e.IsDisparado)
+            .IsRequired();
+
+        entity.HasOne(lembrete => lembrete.Psicologo)
+            .WithMany(p => p.Lembretes)
+            .HasForeignKey(l => l.PsicologoId);
+
+        entity.HasOne(lembrete => lembrete.Paciente)
+            .WithMany(p => p.Lembretes)
+            .HasForeignKey(l => l.PacienteId);
+
+        entity.HasOne(lembrete => lembrete.Consulta)
+            .WithMany(c => c.Lembretes)
+            .HasForeignKey(l => l.ConsultaId);
+    });
+
+        base.OnModelCreating(modelBuilder);
     }
 }

@@ -48,6 +48,9 @@ namespace Psicowise.Domain.Entities
             public bool Confirmada { get; set; } = false;
             public bool Paga { get; set; } = false;
             public bool PacienteFaltou { get; set; } = false;
+
+            public ICollection<Lembrete> Lembretes { get; set; }
+
             public DateTime CreatedAt { get; set; }
             public DateTime UpdatedAt { get; set; }
             
