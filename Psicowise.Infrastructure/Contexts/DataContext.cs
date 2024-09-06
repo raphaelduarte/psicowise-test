@@ -16,6 +16,7 @@ public class DataContext : DbContext
     public DbSet<Paciente> Pacientes { get; set; }
     public DbSet<Consulta> Consultas { get; set; }
     public DbSet<Lembrete> Lembretes { get; set; }
+    public DbSet<Mensagem> Mensagens { get; set; }
     // Adicione outros DbSets conforme necessário
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -167,6 +168,18 @@ public class DataContext : DbContext
             .HasForeignKey(l => l.ConsultaId);
     });
 
-        base.OnModelCreating(modelBuilder);
+    modelBuilder.Entity<Mensagem>(entity =>
+    {
+        entity.HasKey(e => e.Id);
+         entity.HasOne(mensagem => mensagem.Psicologo)
+            .WithMany(p => p.Mensagens)
+            .HasForeignKey(m => m.PsicologoId);
+
+        entity.HasOne(mensagem => mensagem.Paciente)
+            .WithMany(p => p.Mensagens)
+            .HasForeignKey(m => m.PacienteId);
+    });
+
+            base.OnModelCreating(modelBuilder);
     }
 }
