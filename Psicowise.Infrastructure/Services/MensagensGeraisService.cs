@@ -9,24 +9,48 @@ public class MensagensGeraisService : IMensagensGeraisService
 {
     public async Task<GenericCommandResult> AgendarMensagemAsync(CreateMensagemCommand command)
     {
-        var jobId = BackgroundJob.Schedule(() => AgendarMensagemAsync(command), command.DataHoraEnvio);
+        try
+        {
+            var jobId = BackgroundJob.Schedule(() => AgendarMensagemAsync(command), command.DataHoraEnvio);
 
-        return new GenericCommandResult(true, "Mensagem agendada com sucesso", jobId);
+            return new GenericCommandResult(true, "Mensagem agendada com sucesso", jobId);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
 
     public async Task<GenericCommandResult> AtualizarMensagemAsync(UpdateMensagemCommand command)
     {
-        BackgroundJob.Delete(command.ToString());
+        try
+        {
+            BackgroundJob.Delete(command.ToString());
 
-        var jobId = BackgroundJob.Schedule(() => AtualizarMensagemAsync(command), command.DataHoraEnvio);
+            var jobId = BackgroundJob.Schedule(() => AtualizarMensagemAsync(command), command.DataHoraEnvio);
 
-        return new GenericCommandResult(true, "Mensagem atualizada com sucesso", jobId);
+            return new GenericCommandResult(true, "Mensagem atualizada com sucesso", jobId);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
 
     public async Task<GenericCommandResult> RemoverMensagemAsync(RemoveMensagemCommand command)
     {
-        BackgroundJob.Delete(command.MensagemId.ToString());
+        try
+        {
+            BackgroundJob.Delete(command.MensagemId.ToString());
 
-        return new GenericCommandResult(true, "Mensagem removida com sucesso", command.MensagemId);
+            return new GenericCommandResult(true, "Mensagem removida com sucesso", command.MensagemId);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
 }
