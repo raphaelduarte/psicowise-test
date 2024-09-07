@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Psicowise.Infrastructure.Contexts;
@@ -11,9 +12,11 @@ using Psicowise.Infrastructure.Contexts;
 namespace Psicowise.Infrastructure.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20240904022916_LembreteAdded")]
+    partial class LembreteAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -94,37 +97,6 @@ namespace Psicowise.Infrastructure.Migrations
                     b.HasIndex("PsicologoId");
 
                     b.ToTable("Consultas");
-                });
-
-            modelBuilder.Entity("Psicowise.Domain.Entities.Mensagem", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime>("DataDeEnvio")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("MensagemTexto")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<Guid>("PacienteId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("PsicologoId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PacienteId");
-
-                    b.HasIndex("PsicologoId");
-
-                    b.ToTable("Mensagem");
                 });
 
             modelBuilder.Entity("Psicowise.Domain.Entities.Paciente", b =>
@@ -438,25 +410,6 @@ namespace Psicowise.Infrastructure.Migrations
                     b.Navigation("Psicologo");
                 });
 
-            modelBuilder.Entity("Psicowise.Domain.Entities.Mensagem", b =>
-                {
-                    b.HasOne("Psicowise.Domain.Entities.Paciente", "Paciente")
-                        .WithMany("Mensagens")
-                        .HasForeignKey("PacienteId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Psicowise.Domain.Entities.Psicologo", "Psicologo")
-                        .WithMany("Mensagens")
-                        .HasForeignKey("PsicologoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Paciente");
-
-                    b.Navigation("Psicologo");
-                });
-
             modelBuilder.Entity("Psicowise.Domain.Entities.Paciente", b =>
                 {
                     b.HasOne("Psicowise.Domain.Entities.Agenda", null)
@@ -525,8 +478,6 @@ namespace Psicowise.Infrastructure.Migrations
                     b.Navigation("Consultas");
 
                     b.Navigation("Lembretes");
-
-                    b.Navigation("Mensagens");
                 });
 
             modelBuilder.Entity("Psicowise.Domain.Entities.Psicologo", b =>
@@ -536,8 +487,6 @@ namespace Psicowise.Infrastructure.Migrations
                     b.Navigation("Consultas");
 
                     b.Navigation("Lembretes");
-
-                    b.Navigation("Mensagens");
 
                     b.Navigation("Pacientes");
                 });
