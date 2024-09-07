@@ -1,4 +1,7 @@
 using System.Configuration;
+using Hangfire;
+using Hangfire.Console;
+using Hangfire.Redis.StackExchange;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -9,9 +12,12 @@ using Psicowise.Domain.Entities;
 using Psicowise.Domain.Handlers;
 using Psicowise.Domain.Queries.Contracts;
 using Psicowise.Domain.Repositories;
+using Psicowise.Domain.Services;
 using Psicowise.Infrastructure.Contexts;
 using Psicowise.Infrastructure.Queries;
 using Psicowise.Infrastructure.Repositories.Domain;
+using Psicowise.Infrastructure.Services;
+using StackExchange.Redis;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,6 +35,18 @@ builder.Services.AddDbContext<DataContext>(optionsBuilder =>
             errorCodesToAdd: null)),
     ServiceLifetime.Scoped
 );
+
+builder.Services.AddHangfire(options =>
+{
+    var connectionString = builder.Configuration.GetConnectionString("RedisConnectionString");
+    var redis = ConnectionMultiplexer.Connect(connectionString);
+
+    options.UseRedisStorage(redis, options: new RedisStorageOptions{Prefix = "HANG_FIRE"});
+    options.UseConsole();
+});
+
+builder.Services.AddHangfireServer();
+
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -49,6 +67,11 @@ builder.Services.AddTransient<PsicologoHandler, PsicologoHandler>();
 builder.Services.AddTransient<AgendaHandler, AgendaHandler>();
 builder.Services.AddTransient<PacienteHandler, PacienteHandler>();
 builder.Services.AddTransient<ConsultaHandler, ConsultaHandler>();
+
+builder.Services.AddScoped<IMensagensGeraisService, MensagensGeraisService>();
+builder.Services.AddSingleton<IMonitorService, MonitorService>();
+
+builder.Services.AddHostedService<MonitorService>();
 
 // Configurar o DbContext
 builder.Services.AddDbContext<DataContext>();
@@ -77,6 +100,8 @@ if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
         c.RoutePrefix = string.Empty; // Serve Swagger UI na raiz do app
     });
 }
+
+app.UseHangfireDashboard("/hangfire");
 
 //app.UseHttpsRedirection();
 app.UseAuthorization();

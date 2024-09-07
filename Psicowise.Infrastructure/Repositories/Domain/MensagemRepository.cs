@@ -8,7 +8,7 @@ namespace Psicowise.Infrastructure.Repositories.Domain;
 
 public class MensagemRepository : IMensagemRepository
 {
-     private readonly DataContext _context;
+    private readonly DataContext _context;
 
     public MensagemRepository(DataContext context)
     {
@@ -35,7 +35,8 @@ public class MensagemRepository : IMensagemRepository
 
     public async Task<Mensagem> Update(UpdateMensagemCommand mensagem)
     {
-        var mensagemModel = _context.Mensagens.FirstOrDefault(mensagem => mensagem.Id == mensagem.Id);
+        var mensagemModel = _context.Mensagens
+            .FirstOrDefault(mensagem => mensagem.Id == mensagem.Id);
 
         if (mensagemModel == null)
         {
@@ -52,7 +53,8 @@ public class MensagemRepository : IMensagemRepository
 
     public async Task Remove(RemoveMensagemCommand? mensagem)
     {
-        var mensagemModel = _context.Mensagens.FirstOrDefault(mensagem => mensagem.Id == mensagem.Id);
+        var mensagemModel = _context.Mensagens
+            .FirstOrDefault(mensagem => mensagem.Id == mensagem.Id);
 
         if (mensagemModel == null)
         {
