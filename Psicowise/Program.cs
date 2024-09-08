@@ -56,17 +56,20 @@ builder.Services.AddScoped<IPsicologoRepository, PsicologoRepository>();
 builder.Services.AddScoped<IAgendaRepository, AgendaRepository>();
 builder.Services.AddScoped<IPacienteRepository, PacienteRepository>();
 builder.Services.AddScoped<IConsultaRepository, ConsultaRepository>();
+builder.Services.AddScoped<ILembreteRepository, LembreteRepository>();
 
 builder.Services.AddScoped<IPsicologoQuery, PsicologoQuery>();
 builder.Services.AddScoped<IPacienteQuery, PacienteQuery>();
 builder.Services.AddScoped<IAgendaQuery, AgendaQuery>();
 builder.Services.AddScoped<IConsultaQuery, ConsultaQuery>();
 builder.Services.AddScoped<ITesteQuery, TesteQuery>();
+builder.Services.AddScoped<ILembreteQuery, LembreteQuery>();
 
 builder.Services.AddTransient<PsicologoHandler, PsicologoHandler>();
 builder.Services.AddTransient<AgendaHandler, AgendaHandler>();
 builder.Services.AddTransient<PacienteHandler, PacienteHandler>();
 builder.Services.AddTransient<ConsultaHandler, ConsultaHandler>();
+builder.Services.AddTransient<LembreteHandler, LembreteHandler>();
 
 builder.Services.AddScoped<IMensagensGeraisService, MensagensGeraisService>();
 builder.Services.AddSingleton<IMonitorService, MonitorService>();

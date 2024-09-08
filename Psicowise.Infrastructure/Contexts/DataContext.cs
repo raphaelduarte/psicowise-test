@@ -17,6 +17,8 @@ public class DataContext : DbContext
     public DbSet<Consulta> Consultas { get; set; }
     public DbSet<Lembrete> Lembretes { get; set; }
     public DbSet<Mensagem> Mensagens { get; set; }
+    public DbSet<WhatsappInstance> WhatsappInstances { get; set; }
+
     // Adicione outros DbSets conforme necessário
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -62,6 +64,18 @@ public class DataContext : DbContext
         entity.HasMany(e => e.Agendas)
             .WithOne(p => p.Psicologo) // Adicione aqui a propriedade de navegação na Agenda se existir
             .HasForeignKey(a => a.PsicologoId); // Ajuste para o nome correto da propriedade de chave estrangeira na Agenda
+
+        entity.HasMany(e => e.Lembretes)
+            .WithOne(p => p.Psicologo) // Adicione aqui a propriedade de navegação no Lembrete se existir
+            .HasForeignKey(l => l.PsicologoId); // Ajuste para o nome correto da propriedade de chave estrangeira no Lembrete
+
+        entity.HasMany(e => e.Mensagens)
+            .WithOne(p => p.Psicologo) // Adicione aqui a propriedade de navegação na Mensagem se existir
+            .HasForeignKey(m => m.PsicologoId); // Ajuste para o nome correto da propriedade de chave estrangeira na Mensagem
+
+        entity.HasMany(e => e.WhatsappInstances)
+            .WithOne(p => p.Psicologo) // Adicione aqui a propriedade de navegação na WhatsappInstance se existir
+            .HasForeignKey(w => w.PsicologoId); // Ajuste para o nome correto da propriedade de chave estrangeira na WhatsappInstance
     });
 
     modelBuilder.Entity<Agenda>(entity =>
@@ -180,6 +194,18 @@ public class DataContext : DbContext
             .HasForeignKey(m => m.PacienteId);
     });
 
-            base.OnModelCreating(modelBuilder);
+    modelBuilder.Entity<WhatsappInstance>(entity =>
+    {
+        entity.HasKey(e => e.Id);
+
+        entity.Property(e => e.PsicologoId)
+            .IsRequired();
+
+        entity.HasOne(instance => instance.Psicologo)
+            .WithMany(p => p.WhatsappInstances)
+            .HasForeignKey(instance => instance.PsicologoId);
+    });
+
+        base.OnModelCreating(modelBuilder);
     }
 }

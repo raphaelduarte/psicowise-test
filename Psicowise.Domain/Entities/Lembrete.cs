@@ -5,6 +5,18 @@ namespace Psicowise.Domain.ObjetosDeValor;
 
 public class Lembrete : Entity
 {
+    public Lembrete()
+    {
+        
+    }
+    public Lembrete(Guid psicologoId, Guid pacienteId, Guid consultaId, DateTime dataDeDisparo, string mensagem)
+    {
+        PsicologoId = psicologoId;
+        PacienteId = pacienteId;
+        ConsultaId = consultaId;
+        DataDeDisparo = dataDeDisparo;
+        Mensagem = mensagem;
+    }
     [ForeignKey("PsicologoId")]
     public Guid PsicologoId { get; set; }
 

@@ -1,4 +1,6 @@
+using Microsoft.EntityFrameworkCore;
 using Psicowise.Domain.Entities;
+using Psicowise.Domain.ObjetosDeValor;
 using Psicowise.Domain.Queries.Contracts;
 using Psicowise.Infrastructure.Contexts;
 
@@ -97,6 +99,29 @@ public class PacienteQuery : IPacienteQuery
                 .ToList();
 
             return pacientes;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
+
+    public async Task<Telefone> GetPacienteNumber(Guid pacienteId)
+    {
+        try
+        {
+            var paciente = await _context.Pacientes
+                .Where(p => p.Id == pacienteId)
+                .Select(p => p.Telefone)
+                .FirstOrDefaultAsync();
+
+            if (paciente == null)
+            {
+                throw new Exception("Paciente não encontrado");
+            }
+
+            return paciente;
         }
         catch (Exception e)
         {

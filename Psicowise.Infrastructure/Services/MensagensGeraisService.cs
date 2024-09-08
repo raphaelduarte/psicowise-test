@@ -1,19 +1,60 @@
 ﻿using Hangfire;
 using Psicowise.Domain.Commands;
 using Psicowise.Domain.Commands.MensagensCommand;
+using Psicowise.Domain.Queries.Contracts;
 using Psicowise.Domain.Services;
 
 namespace Psicowise.Infrastructure.Services;
 
 public class MensagensGeraisService : IMensagensGeraisService
 {
+    private readonly IWhatsappService _whatsappService;
+    private readonly IPacienteQuery _pacienteQuery;
+    private readonly IWhatsappServiceQuery _whatsappServiceQuery;
+
+    public MensagensGeraisService(
+        IWhatsappService whatsappService,
+        IPacienteQuery pacienteQuery,
+        IWhatsappServiceQuery whatsappServiceQuery
+        )
+    {
+        _whatsappService = whatsappService;
+        _pacienteQuery = pacienteQuery;
+        _whatsappServiceQuery = whatsappServiceQuery;
+    }
+
     public async Task<GenericCommandResult> AgendarMensagemAsync(CreateMensagemCommand command)
     {
         try
         {
-            var jobId = BackgroundJob.Schedule(() => AgendarMensagemAsync(command), command.DataHoraEnvio);
+            var instanceName = _whatsappServiceQuery
+                .GetInstanceName(
+                    command.PsicologoId
+                    )
+                .Result;
 
-            return new GenericCommandResult(true, "Mensagem agendada com sucesso", jobId);
+            var pacienteNumber = _pacienteQuery
+                .GetPacienteNumber(
+                    command.PacienteId
+                    )
+                .Result;
+
+
+            var pacienteNumberFormated = $"+55{pacienteNumber.Ddd}{pacienteNumber.Numero}";
+
+            var jobId = BackgroundJob.Schedule(
+                () => 
+                _whatsappService.SendTextMessage(
+                    instanceName,
+                    pacienteNumberFormated,
+                    command.MensagemTexto
+                ), command.DataHoraEnvio);
+
+
+            return new GenericCommandResult(
+                true, 
+                "Mensagem agendada com sucesso", 
+                jobId);
         }
         catch (Exception e)
         {
@@ -28,9 +69,13 @@ public class MensagensGeraisService : IMensagensGeraisService
         {
             BackgroundJob.Delete(command.ToString());
 
-            var jobId = BackgroundJob.Schedule(() => AtualizarMensagemAsync(command), command.DataHoraEnvio);
+            var jobId = BackgroundJob.Schedule(() => 
+                AtualizarMensagemAsync(command), command.DataHoraEnvio);
 
-            return new GenericCommandResult(true, "Mensagem atualizada com sucesso", jobId);
+            return new GenericCommandResult(
+                true, 
+                "Mensagem atualizada com sucesso", 
+                jobId);
         }
         catch (Exception e)
         {
@@ -45,7 +90,10 @@ public class MensagensGeraisService : IMensagensGeraisService
         {
             BackgroundJob.Delete(command.MensagemId.ToString());
 
-            return new GenericCommandResult(true, "Mensagem removida com sucesso", command.MensagemId);
+            return new GenericCommandResult(
+                true, 
+                "Mensagem removida com sucesso", 
+                command.MensagemId);
         }
         catch (Exception e)
         {

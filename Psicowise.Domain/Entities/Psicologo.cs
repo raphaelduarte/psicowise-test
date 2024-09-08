@@ -84,6 +84,7 @@ namespace Psicowise.Domain.Entities
         public ICollection<Consulta>? Consultas { get; set; } = new List<Consulta>();
         public ICollection<Lembrete>? Lembretes { get; set; } = new List<Lembrete>();
         public ICollection<Mensagem>? Mensagens { get; set; } = new List<Mensagem>();
+        public ICollection<WhatsappInstance>? WhatsappInstances { get; set; } = new List<WhatsappInstance>();
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
     }
