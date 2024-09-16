@@ -33,11 +33,11 @@ public class WhatsappService : IWhatsappService
             var response = await _httpClient.PostAsync(url, new StringContent(JsonSerializer.Serialize(payload), Encoding.UTF8, "application/json"));
             var result = await response.Content.ReadAsStringAsync();
 
-            return new GenericCommandResult(response.IsSuccessStatusCode, result, null);
+            return new GenericCommandResult(response.IsSuccessStatusCode, "Instancia do Whatsapp criada com sucesso", result);
         }
         catch (Exception e)
         {
-            return new GenericCommandResult(false, "Exceção ao obter instâncias", e.Message);
+            return new GenericCommandResult(false, "Exceção ao criar instâncias", e.Message);
         }
     }
 

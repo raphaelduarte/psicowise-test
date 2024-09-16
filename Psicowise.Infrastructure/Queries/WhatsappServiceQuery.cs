@@ -1,6 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Routing;
+using Microsoft.EntityFrameworkCore;
 using Psicowise.Domain.Queries.Contracts;
-using Psicowise.Domain.Services;
 using Psicowise.Infrastructure.Contexts;
 
 namespace Psicowise.Infrastructure.Queries;
@@ -34,6 +34,24 @@ public class WhatsappServiceQuery : IWhatsappServiceQuery
         {
             Console.WriteLine(e);
             throw new Exception("Error ao requisitar instância",e);
+        }
+    }
+
+    public async Task<List<string>> GetAllInstanceByPsicologoId(Guid psicologoId)
+    {
+        try
+        {
+            var instanceNames = _context.WhatsappInstances
+                .Where(instance => instance.PsicologoId == psicologoId)
+                .Select(instance => instance.NomeDaInstancia)
+                .ToListAsync().Result;
+
+            return instanceNames;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw new Exception("Error ao requisitar instância", e);
         }
     }
 }

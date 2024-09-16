@@ -15,19 +15,12 @@ public class WhatsappInstanceRepository : IWhatsappInstanceRepository
         _context = context;
     }
 
-    public async Task<WhatsappInstance> Create(CreateWhatsappInstanceCommand command)
+    public async Task<WhatsappInstance> Create(WhatsappInstance command)
     {
-        var instance = new WhatsappInstance
-        {
-            Id = Guid.NewGuid(),
-            PsicologoId = command.PsicologoId,
-            NomeDaInstancia = command.NomeDaInstancia
-        };
-
-        _context.WhatsappInstances.Add(instance);
+        _context.WhatsappInstances.Add(command);
         await _context.SaveChangesAsync();
 
-        return instance;
+        return command;
     }
 
     public async Task<WhatsappInstance> Update(UpdateWhatsappInstanceCommand command)

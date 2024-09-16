@@ -7,7 +7,4 @@ public class CreateWhatsappInstanceCommand
 {
     public Guid PsicologoId { get; set; }
     public string NomeDaInstancia { get; set; }
-    public string Token { get; set; }
-    public bool QrCode { get; set; }
-    public string NumeroDoWhatsappEscaneado { get; set; }
 }

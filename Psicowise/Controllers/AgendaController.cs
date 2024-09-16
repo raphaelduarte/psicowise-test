@@ -1,10 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Psicowise.Domain.Commands;
 using Psicowise.Domain.Commands.AgendaCommand;
 using Psicowise.Domain.Handlers;
 using Psicowise.Domain.Queries.Contracts;

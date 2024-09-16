@@ -27,6 +27,17 @@ public class MensagensGeraisService : IMensagensGeraisService
     {
         try
         {
+            var thereIsInstance = _whatsappServiceQuery
+                .GetAllInstanceByPsicologoId(command.PsicologoId);
+
+            if (thereIsInstance.Result.Count == 0)
+            {
+                return new GenericCommandResult(
+                    false,
+                    "Não é possível agendar uma mensagem pois não há instância cadastrada para este psicólogo",
+                    null);
+            }
+
             var instanceName = _whatsappServiceQuery
                 .GetInstanceName(
                     command.PsicologoId
@@ -58,8 +69,7 @@ public class MensagensGeraisService : IMensagensGeraisService
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
-            throw;
+            return new GenericCommandResult(false, "Erro ao agendar mensagem", e);
         }
     }
 
